@@ -12,12 +12,12 @@ Instead of digitizing the VIC's analog video output signal, the HD-64 "sniffs" t
 </figure>
 
 <figure align="center" id="hd64_shortboard_back">
-	<img src="doc/pictures/hd64_shortboard_back.png" width="60%">
+	<img src="doc/pictures/hd64_shortboard_back.png" width="100%">
 	<figcaption>HD-64 Short-Board Assembly</figcaption>
 </figure>
 
 <figure align="center" id="hd64_longboard">
-	<img src="doc/pictures/hd64_longboard.png" width="60%">
+	<img src="doc/pictures/hd64_longboard.png" width="70%">
 	<figcaption>HD-64 Long-Board Assembly</figcaption>
 </figure>
 
