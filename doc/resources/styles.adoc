@@ -1,0 +1,45 @@
+ifndef::env-pdf[]
+
+++++
+<style>
+body {
+  font-family: Arial, sans-serif;
+  color: #333333;
+  background-color: #f8f9fa;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: inherit;
+  color: inherit;
+  font-weight: bold;
+}
+
+#toc, #toc a {
+  font-family: inherit;
+  color: inherit;
+  font-weight: bold;
+}
+
+figcaption, caption {
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  align: inherit;
+}
+
+a {
+  color: #0056b3;
+}
+
+a:hover {
+  color: #003366;
+}
+
+.imageblock > .title {
+  text-align: inherit;
+}
+
+</style>
+++++
+
+endif::[]

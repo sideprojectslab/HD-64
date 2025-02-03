@@ -1,0 +1,287 @@
+= HD-64 User Manual
+:pdf-theme: resources/theme.yml
+include::../resources/header.adoc[]
+include::../resources/styles.adoc[]
+
+ifndef::root[:root: ../../]
+ifndef::firmware_update[:firmware_update:]
+ifndef::misc[:misc:]
+ifndef::mapping[:mapping:]
+ifndef::menu[:menu:]
+
+:xrefstyle: short
+
+**Author:** Vittorio Pascucci (Side Projects Lab)
+
+If you wish to get in touch with the developer, please join the SPL link:https://discord.gg/gJsCgebkDw[Discord] server.
+
+**LICENSE:**
+This work is provided under the **Creative Commons CC BY-NC-ND 4.0** License: +
+https://creativecommons.org/licenses/by-nc-nd/4.0/
+
+
+
+[cols="^.^90a,^.^90a,^.^100a"]
+[width=100%]
+[.center, frame=none, grid=none]
+|===
+|[[hd64-top]]
+.HD-64 (Top)
+image::{root}doc/pictures/hd64_top.png[align=center]
+|[[hd64-bot]]
+.HD-64 (Bottom)
+image::{root}doc/pictures/hd64_bot.png[align=center]
+|[[hd64-interleaver]]
+.HD-64 VIC-II Interleaver
+image::{root}doc/pictures/hd64_interleaver.png[align=center]
+|===
+
+HD-64 is a replacement for the original RF-Modulator of the Commodore-64 computer, which produces a 1080p HDMI video output, complete with stereo audio. The HD-64 also features a pass-through channel for the analog video, which is still available on the AV connector both in S-Video and Composite format.
+
+====
+The HD-64 still needs a VIC-II chip (original or replacement) to be present in the computer in order to function.
+====
+
+HD-64 can be purchased pre-assembled from these authorized shops:
+
+- link:https://www.retro8bitshop.com/product/spl-hd-64/[Retro8BitShop]
+- link:https://www.retro-updates.com/product/17245372/hd-64-commodore-64-hdmi-output-fpga[Retro-Updates]
+
+Sales of HD-64 by any shop other than the ones mentioned above may be in violation of the xref:#_license[License] terms and conditions and should be reported to the developer
+
+<<<
+toc::[]
+<<<
+
+== Kit Contents
+The HD-64 Kit includes the following parts:
+
+. 1x HD-64 main board (<<hd64-top>>)
+. 1x VIC-II Interleaver (<<hd64-interleaver>>)
+. 4x 10mm m3 standoffs (with nuts)
+. 2x 4-pin male headers
+. 2x 4-pin female headers
+. 1x flat-pin VIC-II "sacrificial" socket
+
+== Legend
+
+[cols="100a,100a"]
+[width=80%]
+[.center, frame=none, grid=none]
+|===
+|[[legend-top]]
+.HD-64 Legend (Top)
+image::{root}doc/drawings/legend_top.drawio.svg[align=center]
+|[[legend-bot]]
+.HD-64 Legend (Bottom)
+image::{root}doc/drawings/legend_bot.drawio.svg[align=center]
+|===
+
+
+[%header, cols="^.^, ^.^3"]
+[width=80%]
+[.center]
+|===
+| Identifier | Description
+| 1  | S-Video Chroma amplitude selection jumper
+| 2  | 12v VIC-II selection jumper
+| 3  | External "right" audio channel selection jumper
+| 4  | External audio input header
+| 5  | Video PLL Adjustment jumper
+| 6  | USB-C firmware update interface
+| 7  | Retainer holes (not grounded)
+| 8  | Mounting/standoff holes (m3, not grounded)
+| 9  | Flat cable connector
+| 10 | Micro HDMI connector
+| 11 | Longboard motherboard header 1
+| 12 | Longboard motherboard header 2
+| 13 | Shortboard motherboard header 1 / Longboard power input
+| 14 | Shortboard motherboard header 2
+| 15 | JTAG header
+| 16 | Power LEDs
+| 17 | Status LED
+|===
+
+== Installation
+
+=== Before Installation
+* The Original RF-Modulator must be removed and any residual solder needs to be removed from the RF-Modulator header pads on the motherboard
+
+* Always *examine the interleaver* thoroughly. Any pin that receives a trace should have been soldered. Also verify that there are no solder bridges between any two adjacent pins. (Only relevant for the soldered version of the interleaver. The press-fit version has no solder points)
+
+* *Identify your motherboard type.* As far as this installation process is concerned there are only two types of motherboard: the *Shortboard* (model 250469) and the *Longboard* (all other models)
+
+=== Differences Between Shortboard and Longboard Installation
+* The RF-Modulator headers on Shortboard and Longboard are in different positions and have different pinout. The appropriate pin header to use is clearly marked on the bottom of the board as shown in <<hd64-bot>>
+
+* The Shortboard provides the necessary supply voltages (5v and GND) directly on the RF-Modulator header on the motherboard. The Longboard does not provide either, therefore when installing the HD-64 on a Longboard requires feeding the supply lines externally (Header 13, <<legend-bot>>). The process is explained in more detail in <<Additional Steps for Longboard Installation>>
+
+=== Installing the HD-64
+
+Installation is best carried out with the motherboard placed and fastened inside the case, so that the HDMI connector can be properly aligned with the case opening.
+
+. Ensure the computer is powered off
+. Fasten the 4 10mm m3 standoffs to the HD-64
+. Insert the 2 female headers into the motherboard (do not solder them yet)
+. Insert the long side of the 2 male headers into the female headers without pushing them all the way in
+. apply a small amount of "superglue" or a strip of double-sided tape to the bottom of the standoffs
+. Align the HD-64 to the male headers, so that the male headers are inserted from below in the appropriate header pads of the HD-64
+. Carefully align the back of the HD-64 (the side where the HDMI connector is) with the rear edge of the motherboard while making sure the HDMI connector is well centered in the case opening.
+. Push down the HD-64 until the standoffs glue the motherboard. This step will also push the male headers into the female ones.
+. Solder the male headers on the top of the HD-64
+. Without removing the HD-64, solder the female headers on the bottom side of the motherboard
+
+==== Additional Steps for Longboard Installation
+
+[[longboard-pwr]]
+.HD-64 Longboard Power Supply
+image::{root}doc/pictures/hd64_power_long.JPG[width=60%, align=center]
+
+. Unscrew the standoff nuts and detach the HD-64 from the motherboard
+. Solder two supply wires (AWG 22-24) to the pins marked as "5v" and "ground" (triangle) on Header-13 (<<legend-bot>>)
+. Re-install the HD-64 on the motherboard
+. Solder the supply wires to the *expansion port* power supply pins like shown in <<longboard-pwr>>, making sure that:
+	* the *ground* wire is connected to the expansion port pin *closest* to the HD-64.
+	* The *5v* wire is soldered the one (or two) pins *next* to the ground wire on the expansion port.
+
+=== Power Supply Verification & Fastening
+
+. Once the steps in <<Installing the HD-64>> have been carried out and *before* performing any other step, turn on the computer and verify that both power leds are turned on (Item 16 in <<legend-top>>).
+
+. If the leds do not turn on it is a sign that the supply lines might be inverted or not properly connected. This should only ever happen when installing the HD-64 on a Longboard. If this is the case check again the connection of the supply lines to the expansion port as outlined in <<Additional Steps for Longboard Installation>>
+
+. (optional) In order to permanently fasten the HD-64 to the motherboard, drive a long pin or a piece of wire through the retainer pins close to the rear of the HD-64 (Item 7 in <<legend-top>>) and solder one end to the top of the HD-64, and the other end to the exposed ground plane on the motherboard. (It is generally necessary to remove the motherboard from the case to perform this step)
+
+=== Installing the VIC-II Interleaver
+
+[[longboard-installed]]
+.HD-64 Longboard Power Supply
+image::{root}doc/pictures/hd64_longboard.png[width=60%, align=center]
+
+. Ensure that the computer is powered off
+
+. Remove the VIC-II from the motherboard
+
+. Install the VIC-II on the Interleaver socket with the notch towards the flex cable. It is not necessary to push the VIC-II all the way in the Interleaver socket in this step
+
+. Place the Interleaver socket (with the VIC-II installed on top) on the VIC-II socket on the motherboard and press until both the interleaver is well seated in the motherboard socket and the VIC-II is well seated in the Interleaver socket
+
+. If the motherboard socket rejects the interleaver, place the additional flat-pin "sacrificial" socket between the motherboard and the Interleaver
+
+. Connect the flat-cable to the HD-64 *with the dark stiffener on top and the gold contacts on the bottom*.
+	* Open the receptacle by pulling out the black tab parallel to the surface of the board
+	* Insert the flat cable in the receptacle all the way in, making sure that the cable is perpendicular to the receptacle (use the stiffener as reference)
+	* Lock the receptacle by pushing the black tab back in. Some pressure might be necessary for this step
+
+=== Final Verification
+Once all the steps in <<Installing the HD-64>>, <<Power Supply Verification & Fastening>> and <<Installing the VIC-II Interleaver>> have been performed turn on the computer. The status LED next to the HDMI connector (Item 17 in <<legend-top>> should turn solid-green. If this does not happen this might indicate that the flat cable is not connected properly.
+
+====
+When using a Kawari VIC-II replacement make sure to update it to the latest firmware version as older versions are not compatible with the HD-64. In case of problems contact the developer.
+====
+
+== Jumper Configuration
+
+=== Audio Jumper
+
+The jumper denominated "AUDIO (R) EXT-INT" (Item 3 in <<legend-top>>) controls whether the right audio channel received tha signal coming from the motherboard or the one coming from the "EXT. AUDIO" header (Item 4 in <<legend-top>>). The right audio channel *receives no signal* until one side of the jumper has been closed.
+
+[cols="100a,100a"]
+[width=80%]
+[.center, frame=none, grid=none]
+|===
+|
+.Right Audio Internal
+image::{root}doc/drawings/audio_jumper_int.drawio.svg[align=center]
+|
+.Right Audio External
+image::{root}doc/drawings/audio_jumper_ext.drawio.svg[align=center]
+|===
+
+====
+Audio can be switched between "stereo" and "mono" via the HD-64 configuration utility as described in <<Configuration Utility>>. When "mono" audio is selected, the *right channel* is used as audio source.
+====
+
+=== Analog Video Jumpers
+
+The jumper denominated "SV: O-S" (Item 1 in <<legend-top>>) determines whether the amplitude of the chroma signal (on the S-Video analog output) matches that of an original RF-Modulator, or if it should have the lower "standard-compliant" amplitude. *No chroma is available* on the S-Video analog output until one side of the jumper has been closed.
+
+The jumper denominated "12v VIC" (Item 2 in <<legend-top>>) should be closed when a 12v VIC-II is being used (VIC-II models 6567 & 6569).
+
+.Analog Video Jumpers
+image::{root}doc/drawings/video_jumper.drawio.svg[align=center]
+
+=== Video PLL Adjustment Jumper
+
+In the unlikely case that the performance of the video synchronization circuit drifts over time, to the point that synchronization is no longer obtained (HDMI video output absent or unstable) it is possible to close the jumper denominated "ADJ" (Item 5 in <<legend-top>>) to bring the synchronization circuit back within the optimal range of operation.
+
+== Configuration Utility
+
+The various parameters of the HD-64, like color palette, scanlines, blue and wide screen can be configured through the configuration utility (`hd64_cfg_util.prg`) which runs directly on the C64.
+
+The configuration utility is distributed alongside each firmware version on link:https://github.com/sideprojectslab/HD-64/releases[GitHub]
+
+.HD-64 Configuration Utility
+image::{root}doc/pictures/cfg_util.png[width=70%, align=center]
+
+* The configuration utility is operated with the "ASDW" for moving the cursor and "ENTER" to confirm
+
+* The configuration utility cannot read values from the HD-64, it can only write them. Because of this, values that have not been modified show a *default value* that may not be representative of the real state of the HD-64.
+
+* Once a value is modified in the configuration utility, the new value is written to the HD-64 and from that moment on that parameter is synchronized between the configuration utility and the HD-64 (until the configuration utility is closed).
+
+* In order to save the current configuration, move the cursor to the "SAVE" button and press "ENTER". Only the values that have been modified in this session (whith show a tick image:{root}doc/pictures/cfg_util_tick.png[] mark) will be overwritten in the HD-64.
+
+* The version of the configuration utility always needs to match the firmware version of the HD-64. If the two versions do not match, the configuration utility won't be able to change the parameters of the HD-64.
+
+====
+The configuration utility cannot read the firmware version of the HD-64, so the only feedback for a version mismatch is that changing parameters in the configuration utility has no effect. There are three ways to ensure that the two versions match:
+
+. Run the Firmware Update executable as described in <<Firmware Update>>. The script displays the current firmware version of the HD-64 and can be interrupted before actually performing the firmware update. Once the HD-64 firmware version is known, download the configuration utility from the appropriate release on link:https://github.com/sideprojectslab/HD-64/releases[GitHub]
+
+. Update the HD-64 firmware to the latest version and utilize the configuration utility distributed alongside the update package
+
+. Start from the latest available release and try progressively older configuration utility version until you find one that works
+====
+
+== Firmware Update
+
+The firmware of the HD-64 can be upgraded by connecting it to a PC through the on-board USB-C port (Item 6 in <<legend-top>>).
+
+[[update]]
+.HD-64 Firmware Update Executable
+image::{root}doc/pictures/hd64-update.png[width=70%, align=center]
+
+====
+*The C64 must be powered on for the whole duration of a firmware update*
+====
+
+====
+Due to the fact that the "breadbin" and the "C64-C" hase have holes in different position it was not possible to have the USB-C port accessible on the back of the computer. It is therefore necessary to open the case to update the HD-64.
+====
+
+. Download and extract the latest firmware update package from link:https://github.com/sideprojectslab/HD-64/releases[GitHub]
+. Power on the C64
+. Connect the HD-64 to a PC through the USB-C port
+. Verify that the HD-64 appears as a new COM port under "Device Manager". If this does not happen, install the appropriate FTDI drivers
+. Once the HD-64 has been recognized run the update executable (*firmware_update.exe*)
+. Follow the prompts. When asked to choose the COM port, always try to let the tool "auto-detect" the HD-64 first, and only if that does not work specify the correct COM port manually.
+. Once the firmware update executable succeeds power-cycle the C64.
+. (optional) re-running the firmware update executable will display the current firmware version
+
+====
+A firmware update does not erase the current configuration of the HD-64. In the unlikely scenario that the configuration data is moved in memory across firmware versions it is likely that colors will be "messed up" after the update.
+
+In order to fix this, run the configuration utility as described in <<Configuration Utility>>, modify all parameters, then revert them, save the configuration and finally power-cycle the C64.
+====
+
+=== Firmware Update Error & Recovery Firmware
+
+Errors might happen during a firmware update procedure. This could be due to program crashes, power outages or other issues. When this happens the firmware update executable will likely crash and not terminate with "Success, closing..." as depicted in <<update>>
+
+====
+If an error happens during firmware update, first try to repeat the update procedure *without power-cycling the C64*.
+====
+
+If the C64 is power cycled after a firmware update error, more likely than not it will boot in "recovery mode", in which case the status LED (Item 17 in <<legend-top>>) starts blinking.
+Recovery mode produces no HDMI video output (the analog video output is still available) but does allow new firmware updates. It is thus possible to attempt a firmware update once again as described in <<update>> to restore the full functionality of the HD-64.

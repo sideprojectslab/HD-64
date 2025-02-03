@@ -1,0 +1,6 @@
+:toc-placement!:
+ifndef::toc[:toc:]
+:sectnums:
+:stem: latexmath
+:table-caption: Table
+:allow-uri-read:

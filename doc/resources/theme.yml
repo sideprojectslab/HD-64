@@ -1,0 +1,52 @@
+extends: base
+
+heading:
+  min-height-after: 200pt
+  breakable: true
+
+table:
+  caption:
+    end: bottom
+    max-width: fit-content
+  breakable: false
+
+table-head:
+  background-color: #cccccc
+
+image:
+  caption:
+    align: inherit
+
+header:
+  height: 75pt
+  vertical-align: top
+  margin: 25pt[top]
+  recto: &shared-header
+    right:
+      content: image:../pictures/spl.png[pdfwidth=50pt]
+  verso: *shared-header
+
+footer:
+  border-width: 0pt
+  height: 25pt
+  vertical-align: top
+  recto: &shared-footer
+    left:
+      content: '{document-title}: {docdate}'
+    right:
+      content: '*{page-number}*'
+  verso: *shared-footer
+
+page:
+  layout: portrait
+  # top - right - bottom -left
+  margin: [95pt, 50pt, 50pt, 50pt]
+
+base:
+  font_color: #333333
+  font_family: Helvetica
+  font_size: 10
+  line_height_length: 1.3
+
+caption:
+  margin-inside: 5pt

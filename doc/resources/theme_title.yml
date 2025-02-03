@@ -1,0 +1,26 @@
+extends: theme
+
+header:
+  height: 75pt
+  vertical-align: top
+  margin: 25pt[top]
+  recto: &shared-header
+    right:
+      content: image:../pictures/spl.png[pdfwidth=75pt]
+  verso: *shared-header
+
+footer:
+  border-width: 0pt
+  height: 25pt
+  vertical-align: top
+  recto: &shared-footer
+    left:
+      content: '{document-title}: {docdate}'
+    right:
+      content: '*{page-number}*'
+  verso: *shared-footer
+
+page:
+  layout: portrait
+  # top - right - bottom -left
+  margin: [95pt, 50pt, 50pt, 50pt]
