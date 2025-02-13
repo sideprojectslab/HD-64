@@ -285,3 +285,17 @@ If an error happens during firmware update, first try to repeat the update proce
 
 If the C64 is power cycled after a firmware update error, more likely than not it will boot in "recovery mode", in which case the status LED (Item 17 in <<legend-top>>) starts blinking.
 Recovery mode produces no HDMI video output (the analog video output is still available) but does allow new firmware updates. It is thus possible to attempt a firmware update once again as described in <<update>> to restore the full functionality of the HD-64.
+
+== Known Issues
+=== Analog Chroma Amplitude Hardware Bug
+Due to a component mixup while ordering the first production batch of board version 0.2, resistors R19 and R67 have wrong values, that cause the chroma amplitude to be out of spec.
+
+.HD-64 Chroma Amplitude Hardware Bug
+image::{root}doc/drawings/chroma_hw_bug.drawio.svg[width=70%, align=center]
+
+In the affected boards, both resistors have a value of 110 Ohm (the markings are "05A"), instead os 220 Ohm and 100 Ohm respectively.
+
+Even with this issue it is likely that there will be no noticeable problem on CRTs and LCDs due to the ability of most screens to compensate for inaccuracies of the chroma amplitude. Should the color look "off" there are two recommended ways to fix the issue:
+
+. Replace R19 and R67 with 220 Ohm and 100 Ohm respectively (0603 size)
+. Add a 680 Ohm 0603 resistor on top of R67 (so without removing the current resistors)

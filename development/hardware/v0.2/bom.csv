@@ -1,7 +1,7 @@
 "Comment","DNP","Designator","Footprint"
 "GRM155R71H104KE14D","","C1, C2, C3, C6, C10, C12, C14, C19, C26, C27, C28, C29, C30, C31, C32, C33, C37, C40, C44, C45, C53, C59, C62, C63, C64, C69, C72, C79, C80, C81, C82, C83, C85, C90, C94","eas_cdb_capacitor:C_0402_1005Metric"
 "GRM188R61A106ME69D","","C4, C5, C7, C11, C13, C15, C16, C17, C23, C24, C25, C36, C41, C46, C48, C49, C52, C55, C56, C58, C68, C71, C76, C77, C78, C84, C86, C97, C98","eas_cdb_capacitor:C_0603_1608Metric"
-"C1608C0G1H103JT000N","","C8, C9","eas_cdb_capacitor:C_0402_1005Metric"
+"C1608C0G1H103JT000N","","C8, C9","eas_cdb_capacitor:C_0603_1608Metric"
 "GRM155R61C105KE01D","","C18, C20, C21, C35, C39, C42, C60, C65, C67, C70, C73, C74, C75","eas_cdb_capacitor:C_0402_1005Metric"
 "GRM155R61A474KE15D","","C34, C38, C61","eas_cdb_capacitor:C_0402_1005Metric"
 "EEE-FP1V221AP","","C51","eas_cdb_capacitor:CP_Elec_8x6.9"
