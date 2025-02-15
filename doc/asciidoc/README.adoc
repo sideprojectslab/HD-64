@@ -209,7 +209,7 @@ The jumper denominated "SV: O-S" (Item 1 in <<legend-top>>) determines whether t
 The jumper denominated "12v VIC" (Item 2 in <<legend-top>>) should be closed when a 12v VIC-II is being used (VIC-II models 6567 & 6569).
 
 .Analog Video Jumpers
-image::{root}doc/drawings/video_jumper.drawio.svg[align=center]
+image::{root}doc/drawings/video_jumper.drawio.svg[align=center, width=60%]
 
 === Video PLL Adjustment Jumper
 
@@ -288,7 +288,7 @@ Recovery mode produces no HDMI video output (the analog video output is still av
 
 == Known Issues
 === Analog Chroma Amplitude Hardware Bug
-Due to a component mixup while ordering the first production batch of board version 0.2, resistors R19 and R67 have wrong values, that cause the chroma amplitude to be out of spec.
+Due to a component mixup while ordering the first production batch of board version 0.2, resistors R19 and R67 have wrong values, which causes the chroma amplitude to be out of spec.
 
 .HD-64 Chroma Amplitude Hardware Bug
 image::{root}doc/drawings/chroma_hw_bug.drawio.svg[width=70%, align=center]
@@ -297,5 +297,5 @@ In the affected boards, both resistors have a value of 110 Ohm (the markings are
 
 Even with this issue it is likely that there will be no noticeable problem on CRTs and LCDs due to the ability of most screens to compensate for inaccuracies of the chroma amplitude. Should the color look "off" there are two recommended ways to fix the issue:
 
-. Replace R19 and R67 with 220 Ohm and 100 Ohm respectively (0603 size)
-. Add a 680 Ohm 0603 resistor on top of R67 (so without removing the current resistors)
+. Replace R19 and R67 with 220 Ohm and 100 Ohm respectively (0603 size) or,
+. Add a 680 Ohm 0603 resistor on top of R67 (so without removing the current resistors) so that the parallel of the original 100 Ohm resistor and the added 680 Ohm becomes 87 Ohm, which brings the chroma amplitude back to the correct value.
