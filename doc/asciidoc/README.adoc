@@ -184,7 +184,7 @@ When using a Kawari VIC-II replacement make sure to update it to the latest firm
 
 === Audio Jumper
 
-The jumper denominated "AUDIO (R) EXT-INT" (Item 3 in <<legend-top>>) controls whether the right audio channel received tha signal coming from the motherboard or the one coming from the "EXT. AUDIO" header (Item 4 in <<legend-top>>). The right audio channel *receives no signal* until one side of the jumper has been closed.
+The jumper denominated "AUDIO (R) EXT-INT" (Item 3 in <<legend-top>>) controls whether the right audio channel receives the signal coming from the motherboard through the RF-Modulator header or the one coming from the "EXT. AUDIO" header (Item 4 in <<legend-top>>). The right audio channel *receives no signal* until one side of the jumper has been closed.
 
 [cols="100a,100a"]
 [width=80%]
