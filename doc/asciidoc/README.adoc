@@ -299,3 +299,24 @@ Even with this issue it is likely that there will be no noticeable problem on CR
 
 . Replace R19 and R67 with 220 Ohm and 100 Ohm respectively (0603 size) or,
 . Add a 680 Ohm 0603 resistor on top of R67 (so without removing the current resistors) so that the parallel of the original 100 Ohm resistor and the added 680 Ohm becomes 87 Ohm, which brings the chroma amplitude back to the correct value.
+
+=== Audio Compatibility Issues
+
+====
+TLDR: there is a hardware bug in the EP952 HDMI transmitter used in the HD-64 which causes a very small percentage of displays to not receive audio correctly. Unfortunately this cannot be fixed in software (or not completely)
+====
+
+The long version...
+
+HDMI Sinks (TVs, displays, monitors) must recover the sampling rate of the incoming audio stream in order to play it back. Different sinks will use different techniques to do so. Some of these techniques are "smarter" than others, as in, they rely less on the assumption that the source is 100% compliant to the HDMI standard, which in turn improves overall interoperability, especially in the presence of hardware bugs.
+
+Among the many requirements of the HDMI standard, is that the source must transmit a special ACR (Audio Clock Regeneration) packet at a certain rate. This packet contains information about how the audio clock was generated on the source, so that the sink can replicate it more easily.
+
+While it is not a strict requirement, the best performance in terms of audio quailty is achieved when such packet is transmitted about 1000 times per second (this number is actually based on quite a few factors), with increasing quality degradation the further the actual rate of ACR packets from this 1kHz target.
+
+The issue with the EP952 is that it is hard wired to only send the ACR packet only once per frame, so about 50/60 times per second as opposed to the optimal 1000. This leads to two scenarios:
+
+. Most monitors do not rely on the frequency of ACR packets, but just on their contents in order to recover the audio clock. Such monitors are therefore unaffected.
+. Some monitors **rely** on the frequency of ACR packets being compliant with the standard in order to recover the audio clock. Such monitors won't be able to reproduce audio correctly or at all.
+
+Luckily the vast majority of TVs and monitors available today (even on the 2nd hand market) fall in the 1st cathegory. For the 2nd kind, there is unfortunately no reliable solution for now.
