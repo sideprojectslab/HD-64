@@ -52,3 +52,5 @@ Some important considerations:
 * Build logs are available in the "dump" folder, under the "pass" or "fail" subfolder depending on the success or failure of the build process.
 
 In order to be authorized to use the SPL build server please get in touch with the maintainer through [Discord](https://discord.gg/gJsCgebkDw)
+
+**More detail documentation coming soon...**
