@@ -34,23 +34,4 @@ Unless otherwise stated in individual files, all software source files are Licen
 All material is provided on an 'AS IS' BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND in accordance to the license deed applicable to each individual file.
 
 # 3. Contributing
-The only open source portion of the HD-64 firmware is the VIC-II emulation written in VHDL, with the rest of the source code not being made available. Even so, anyone can contribute to changes to the VIC-II emulator and test the results without having to access the entire codebase, nor having to set up a local build system.
-
-The SPL build server is constantly polling GitHub (about once a minute) for the presence of Pull Requests (PR) to the main branch, that have the **@build** keyword anywhere in the description.
-If any such PR is found to have new commits, and the author of the PR is present in a private list of authorized users, the SPL server will:
-
-* grab the changes to the VIC-II sources from the PR/commit in question
-* Build an update package based on those changes
-* Create a release on GitHub tagged as "AUTOBUILD" with the original title of the PR in the release description
-* The build artifacts attached as "assets" to the release
-
-Some important considerations:
-
-* The new release appears as soon as the build starts, while the assets are added to it as soon as the build ends (after about 10-15 minutes).
-* AUTOBUILD releases are available for 24 hours, after which they are deleted together with their assets
-* The update package is pure python and as such works on all platforms. The files, **if the build has succeeded**, are available under output\misc\HD-64 vx.xx\src
-* Build logs are available in the "dump" folder, under the "pass" or "fail" subfolder depending on the success or failure of the build process.
-
-In order to be authorized to use the SPL build server please get in touch with the maintainer through [Discord](https://discord.gg/gJsCgebkDw)
-
-**More detail documentation coming soon...**
+The only open source portion of the HD-64 firmware is the VIC-II emulation written in VHDL, with the rest of the source code not being made available. Even so, **anyone can contribute to changes to the VIC-II emulator, build and test the results without having to access the entire codebase, nor having to set up a local build system**. Builds run directly on the SPL build server and compilation outputs are delivered back to the developers through dedicated GitHub releases. Please find the [Developer's Guide](https://raw.githubusercontent.com/sideprojectslab/HD-64/main/doc/README.pdf) for detailed information on how to contribute to the project.
