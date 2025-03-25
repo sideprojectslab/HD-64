@@ -1,4 +1,4 @@
-= HD-64 Development Guide
+= HD-64 Developer's Guide
 :pdf-theme: resources/theme.yml
 include::../resources/header.adoc[]
 include::../resources/styles.adoc[]
@@ -15,26 +15,27 @@ This work is provided under the **Creative Commons CC BY-NC-ND 4.0** License: +
 https://creativecommons.org/licenses/by-nc-nd/4.0/
 
 == Introduction
-The HD-64 is a commercial product and as such, not all of its source code is available to the public.
+The HD-64 is a commercial product and, as such, not all of its source code is available to the public:
 
-* All hardware design files are publicly available for non-commercial use, so that anyone has all information necessary to freely repair/modify their board
-* All the sources for the VIC-II emulator subsystem are free software available under the GPLv3 license (free as in free speech), so that anyone can contribute to improving the system and get closer to a 100% accurate reproduction of the original VIC-II
+* All hardware design files are publicly available for non-commercial use so that all users have all information necessary to freely repair/modify their board
+* All the sources for the VIC-II emulator subsystem are free software available under the GPLv3 license (free as in free speech) so that anyone can contribute to improving the system and get closer to a 100% accurate reproduction of the original VIC-II
 
-Without the complete codebase being available it is not possible to set up a development environment locally. This would be an issue because contributors working on the VIC-II subsystem need to test the effects of their adjustments on the real hardware, and thus need to be able to build update packages autonomously.
+Without the complete codebase being available it is not possible for contrinutors to set up a local development environment. This would be an issue because contributors need to test the effects of their adjustments on the real hardware and, thus, need to be able to build HD-64 update packages autonomously.
 
-For this reason, the SPL build server has been made available to the public. So that contributors can use it freely to build new binaries and have them delivered via GitHub. This document explains in detail how to contribute code to the VIC-II subsystem of the HD-64 and how to use the SPL build server to that end.
+For this reason the SPL build server has been made available to the public so that contributors can use it freely to build new binaries and have them delivered via GitHub, without having to set up a local development environment. This document explains in detail how to contribute code to the VIC-II subsystem of the HD-64 and how to use the SPL build server to that end.
 
 == How to Build New Binaries (TLDR)
 Building a new set of binaries, together with the python utilities to update the HD-64 firmware can be done in a few simple steps:
 
 . Get in touch with the maintainer (sideprojectslab) through link:https://discord.gg/gJsCgebkDw[Discord] to align on what the intended contribution will be and to become an "authorized user" of the SPL build server.
+
 NOTE: This step is crucial as only "authorized users" are able to use the SPL server
 
-. Fork the project and make some changes to the VIC-II VHDL code base available under /development/firmware/vicii
+. Fork the project and make some changes to the VIC-II VHDL code base available under `/development/firmware/vicii`
 
 . Create a Pull Request (PR) to the main branch of the original repository, add a descriptive title and make sure the keyword **@build** is in the description
 
-. After some time (about a minute if the SPL server is idle, more if it is busy building) a new "draft" release will appear on the original HD-64 repository with title **"AUTOBUILD: <date-of-the-last-commit>"** containing the original title of the PR in the description
+. After some time (about a minute if the SPL server is idle, more if it is busy building) a new "draft" release will appear on the original HD-64 repository with title: **"AUTOBUILD: <date-and-time-of-the-last-commit>"** containing the original title of the PR in the description
 
 . After about 10 minutes an "asset" will be added to the release (with the same name), containing:
 	* the build log from Vivado (the xilinx FPGA toolchain) under `/dump/pass` or `/dump/fail` depending on whether the build has succeded or not
@@ -45,17 +46,17 @@ NOTE: This step is crucial as only "authorized users" are able to use the SPL se
 	* ezpath
 	* ipython
 
-. To update the HD-64 with the new firmware run `python3 firmware_update.py` within the `/output/misc/HD-64 vX.XX/src` directory while following the same steps described in the link:https://raw.githubusercontent.com/sideprojectslab/HD-64/main/doc/README.pdf[README] (Firmware Update section)
+. To update the HD-64 with the new firmware run: `python3 firmware_update.py` within the `/output/misc/HD-64 vX.XX/src` directory while following the same steps described in the link:https://raw.githubusercontent.com/sideprojectslab/HD-64/main/doc/README.pdf[README] (Firmware Update section)
 
-. To interact with the HD-64 system registers and enable debug features run `python3 console.py` within the `/output/misc/HD-64 vX.XX/src`. An interactive console will open, allowing you to access the HD-64 memory map directly. Please refer to <<python-console>> for a detailed explanation of the console's operation.
+. To interact with the HD-64 system registers and enable debug features run: `python3 console.py` within the `/output/misc/HD-64 vX.XX/src`. An interactive console will open, allowing direct access to the HD-64 memory map. Please refer to <<python-console>> for a detailed explanation of the console's operation.
 
 == The SPL Build Server
-The SPL build server is not directly accessible to the public. Instead, it interacts with GitHub through its API to grab new source code from pending Pull-Requests (PR), build new binaries, and then deliver them back to the developer through GitHub, in the form of "draft releases".
+The SPL build server is not directly accessible to the public. Instead, it interacts with GitHub through its API to grab new source code from pending Pull-Requests (PR), build new binaries, and then deliver them back to the developer through GitHub, in the form of "draft releases":
 
 * The SPL server polls the HD-64 repository on GitHub once every minute and checks if there are pending PRs
-* If any PR is pending the SPL server checks whether the author of the PR is present in a private list of authorized users, and if the keyword "@build" is present in the PR description.
-* If the conditions above are met, a new "draft" release is created on GitHub titled "AUTOBUILD: <date and time of the last commit>". The PR description contains the PR title, a link to the last commit and the PR unique index assigned by GitHub
-* The server clones the repository being pulled in the PR, grabs the VIC-II VHDL sources and replaces them in the latest stable codebase of the HD-64
+* If any PR is pending the SPL server checks whether the author of the PR is present in a private list of authorized users and if the keyword "@build" is present in the PR description.
+* If the conditions above are met, a new "draft release" is created on GitHub titled: **"AUTOBUILD: <date-and-time-of-the-last-commit>"**. The release description contains the original PR title, a link to the last commit and the PR unique index assigned by GitHub
+* The server clones the source repository of the PR, grabs the VIC-II VHDL sources and replaces them in the latest stable codebase of the HD-64
 * The server runs the build, collects compilation logs and creates an update package with the new binaries
 * The compilation artifacts above are compressed and added as "asset" to the release on GitHub
 * The release on GitHub is deleted after 24 hours after being created.
@@ -64,9 +65,9 @@ The SPL build server is not directly accessible to the public. Instead, it inter
 == Python Console
 NOTE: It is not possible to brick the device by abusing the "console", however it **is** possible to intentionally erase the current HD-64 firmware and/or configuration data. Please get in touch with the maintainer for basic coaching before using this feature.
 
-run `python3 console.py` within the `/output/misc/HD-64 vX.XX/src`. An interactive console will open, allowing you to access the HD-64 memory map directly.
+run `python3 console.py` within the `/output/misc/HD-64 vX.XX/src`. An interactive console will open, allowing direct access the HD-64 memory map.
 
-* refer to the file `/output/misc/HD-64 vX.XX/src/memmap_hd64.py` for complete description of the HD-64 memory map. The HD-64 memory is structured hierarchically and consists of any combination of the following items:
+* refer to the file `/output/misc/HD-64 vX.XX/src/memmap_hd64.py` for a complete description of the HD-64 memory map. The HD-64 memory map is structured hierarchically and consists of any combination of the following items:
 	* Registers (REGISTER)
 	* Register Fields (FIELD)
 	* Memory Ranges (MEMRANGE)
@@ -81,5 +82,5 @@ run `python3 console.py` within the `/output/misc/HD-64 vX.XX/src`. An interacti
 The basic rules within the console are:
 
 * memory ranges (MEMRANGE) can be indexed by word, so `hd64.flash_mng.firmware[12]` will access the 13th word of the firmware range. Words are 4-byte wide in the HD-64 firmware
-* whole registers (REGISTER) are accessed through the property ".val" like the `hd64.version.val` example seen before
-* register fields (FIELD) are accessed by their name, like the `hd64.version.fwv_minor`
+* whole registers (REGISTER) are accessed through the property ".val" like for the `hd64.version.val` example seen above
+* register fields (FIELD) are accessed by their name, like for the `hd64.version.fwv_minor` example seen above
