@@ -4,11 +4,6 @@ include::../resources/header.adoc[]
 include::../resources/styles.adoc[]
 
 ifndef::root[:root: ../../]
-ifndef::firmware_update[:firmware_update:]
-ifndef::misc[:misc:]
-ifndef::mapping[:mapping:]
-ifndef::menu[:menu:]
-
 :xrefstyle: short
 
 **Author:** Vittorio Pascucci (Side Projects Lab)
