@@ -68,6 +68,8 @@ architecture rtl of sprites is
 
 	signal acquire    : std_wire;
 	signal spen       : std_word(7 downto 0);
+	signal spen_1r    : std_word(7 downto 0);
+	signal spen_2r    : std_word(7 downto 0);
 	signal prio       : std_word(7 downto 0);
 	signal mxmc       : std_word(7 downto 0);
 	signal xexp_1r    : std_word(7 downto 0);
@@ -104,7 +106,7 @@ architecture rtl of sprites is
 	signal sprt_val   : unsigned_vector(0 to 7)( 1 downto 0);
 	signal mc_phy     : unsigned(7 downto 0);
 
-	signal rst_1r    : std_wire := '1';
+	signal rst_1r     : std_wire := '1';
 
 begin
 
@@ -161,7 +163,7 @@ begin
 
 					-- horizontal trigger
 					if ydisp(i) then
-						if (sp_xpos(i) = xpos_6r) -- and (xdisp(i) = '0')
+						if (xpos_6r = sp_xpos(i))
 						then
 							count_xlen(i) <= 0;
 							xdisp (i)     <= '1';
@@ -224,8 +226,10 @@ begin
 						end if;
 
 						if mark(i) then
-							if (count_xlen(i) = 0) or (count_xlen(i) = 23) or
-							   (((count_mc(i) = 3  ) or (count_mc(i) = 63  )) and ((count_xlen(i) < 4) or (count_xlen(i) > 19)))
+							if (count_xlen(i) = 0                            ) or
+							   (count_xlen(i) = 23                           ) or
+							   (((count_mc(i) = 3  ) or (count_mc(i) = 63  )) and
+							    ((count_xlen(i) < 4) or (count_xlen(i) > 19)))
 							then
 								o_actv <= '1';
 								o_prio <= '1';
@@ -239,10 +243,14 @@ begin
 					--                    VERTICAL TRIGGER                    --
 					------------------------------------------------------------
 
-
 					if strb = 3 then
 
 						yexp_1r(i) <= yexp(i);
+
+						spen_1r(i) <= spen(i);
+						spen_2r(i) <= spen_1r(i);
+
+						-- delaying display by one character cycle
 						ydisp(i)   <= ypend(i);
 
 						if (yexp(i) = '0') and (yincr(i) = '0') then
@@ -281,11 +289,9 @@ begin
 
 							if (spdma(i) = '1') then
 								if (sp_ypos(i) = ypos(7 downto 0)) and (spen(i) = '1') then
---									ydisp(i) <= '1';
 									ypend(i) <= '1';
 								end if;
 							else
---								ydisp(i) <= '0';
 								ypend(i) <= '0';
 							end if;
 						end if;
@@ -335,6 +341,11 @@ begin
 
 				-- sprite data acquisition
 				if acquire then
+					if count_data /= 3 then
+						-- holding the shift register while it's being filled
+						shreg(count_sprt) <= shreg(count_sprt);
+					end if;
+
 					if (strb = 7) or (strb = 15) then
 						if (count_data /= 3) then
 							if count_data = 0 then
@@ -345,7 +356,6 @@ begin
 							end if;
 							if count_data = 2 then
 								shreg(count_sprt)(7 downto 0) <= unsigned(i_data(7 downto 0));
---								ydisp(count_sprt) <= ypend(count_sprt);
 							end if;
 
 							if (count_data = 2) then

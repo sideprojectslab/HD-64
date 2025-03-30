@@ -43,6 +43,7 @@ port
 	strb   : in  t_strb;
 
 	i_actv : in  std_wire;
+	i_vbrd : in  std_wire;
 	i_grfx : in  std_word( 7 downto 0);
 	i_data : in  std_word(11 downto 0);
 	o_bgnd : out std_wire;
@@ -65,6 +66,8 @@ architecture rtl of graphics_gen is
 
 	signal actv_1r   : std_wire;
 	signal actv_2r   : std_wire;
+
+	signal vbrd_1r   : std_wire;
 
 	signal grfx_1r   : i_grfx'subtype;
 	signal grfx_2r   : i_grfx'subtype;
@@ -172,6 +175,8 @@ begin
 				mcm_2r <= mcm_1r;
 				mcm_3r <= mcm_2r;
 
+				vbrd_1r <= i_vbrd;
+
 				if strb = 1 then
 					ecm <= ecm or ecm_3r;
 					bmm <= bmm or bmm_3r;
@@ -243,6 +248,12 @@ begin
 						v_gfx_val  := (others => shreg(shreg'high));
 						v_gfx_bgnd := not shreg(shreg'high);
 					end if;
+				end if;
+
+				-- vertical border disabled graphics, not clear if the delay is correct here
+				if vbrd_1r = '1' then
+					v_gfx_val  := (others => '0');
+					v_gfx_bgnd := '1';
 				end if;
 
 				-- saving former pixel values

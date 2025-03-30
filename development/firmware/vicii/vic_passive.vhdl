@@ -257,6 +257,7 @@ begin
 			reg       => reg,
 			strb      => strb,
 			i_actv    => grfx_actv,
+			i_vbrd    => vbrd_actv,
 			i_grfx    => gg_vm,
 			i_data    => cc_vm,
 			o_bgnd    => grfx_bgnd,
@@ -329,7 +330,7 @@ begin
 			i_bdln      => bdln,
 			i_xpos      => xpos,
 			i_ypos      => ypos,
-			i_bord_actv => bord_actv,
+			i_bord_actv => bord_actv or vbrd_actv,
 			i_bord_colr => bord_colr,
 
 			i_sprt_actv => sprt_actv,
