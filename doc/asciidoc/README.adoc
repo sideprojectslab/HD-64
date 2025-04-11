@@ -281,6 +281,21 @@ If an error happens during firmware update, first try to repeat the update proce
 If the C64 is power cycled after a firmware update error, more likely than not it will boot in "recovery mode", in which case the status LED (Item 17 in <<legend-top>>) starts blinking.
 Recovery mode produces no HDMI video output (the analog video output is still available) but does allow new firmware updates. It is thus possible to attempt a firmware update once again as described in <<update>> to restore the full functionality of the HD-64.
 
+== Troubleshooting
+. **Constant black screen (HDMI):**
+	.. Ensure that your monitor/TV supports 1920x1080p resolution (FullHD). The HD-64 can only output FullHD video and as such the monitor must support it. Crucially, several old 720p (HD) monitors support 1080i resolution (interlaced), which is also incompatible with the HD-64
+	.. see also "Intermittent black screen"
+
+. **Intermittent black screen (HDMI):**
+	.. Measure the voltage on the 5v rail on the HD-64 (right on the board). Anything below 4.8v won't allow the HDMI link to operate correctly. If this is the case please replace the C64 power supply
+
+. **No Audio (HDMI):**
+	.. Check if sound is coming from the AV connector of the C64.
+	.. Check that all appropriate audio jumpers are properly closed and there are no cold solders
+	.. Try to toggle mono/stereo audio in the configuration utility
+	.. Try a different screen to determine if your first display is affected by a known issue described in <<audio_issue>>
+
+
 == Known Issues
 === Analog Chroma Amplitude Hardware Bug
 Due to a component mixup while ordering the first production batch of board version 0.2, resistors R19 and R67 have wrong values, which causes the chroma amplitude to be out of spec.
@@ -292,11 +307,29 @@ In the affected boards, both resistors have a value of 110 Ohm (the markings are
 
 Even with this issue it is likely that there will be no noticeable problem on CRTs and LCDs due to the ability of most screens to compensate for inaccuracies of the chroma amplitude. Should the color look "off" there are two recommended ways to fix the issue:
 
+====
+**What to do:**
 . Replace R19 and R67 with 220 Ohm and 100 Ohm respectively (0603 size) or,
 . Add a 680 Ohm 0603 resistor on top of R67 (so without removing the current resistors) so that the parallel of the original 100 Ohm resistor and the added 680 Ohm becomes 87 Ohm, which brings the chroma amplitude back to the correct value.
+====
 
+=== HDMI PLL Bias Hardware Bug
+Boards of production batch 1 and 2 are affected, though this bug is unlikely to have any real world ripercussions.
+
+Resistor R50 has the wrong value (22kOhm), causing the PLL bias to be lower than originally intended (1.5V instead of 2.1V), though well within the allowed margin (1V to 3V).
+
+.HD-64 PLL Bias Hardware Bug
+image::{root}doc/drawings/adj_hw_bug.drawio.svg[width=70%, align=center]
+
+This imperfection means that the "Adj jumper" (Item 5 in <<legend-top>>) will not be effective against a possible decrease of the PLL center frequency due to component aging. Should the PLL bias voltage spontaneously drift towards or below 1V over time, closing the "Adj jumper" will further lower the bias, causing the PLL to operate even out of specs.
+
+====
+**What to do:**
+If the voltage on the test point nearby the "Adj Jumper" falls below 1v (with the Adj jumper open), R50 shall be replaced with a 33kOhm, 0402 resistor.
+====
+
+[[audio_issue]]
 === Audio Compatibility Issues
-
 ====
 TLDR: there is a hardware bug in the EP952 HDMI transmitter used in the HD-64 which causes a very small percentage of displays to not receive audio correctly. Unfortunately this cannot be fixed in software (or not completely)
 ====
@@ -307,11 +340,16 @@ HDMI Sinks (TVs, displays, monitors) must recover the sampling rate of the incom
 
 Among the many requirements of the HDMI standard, is that the source must transmit a special ACR (Audio Clock Regeneration) packet at a certain rate. This packet contains information about how the audio clock was generated on the source, so that the sink can replicate it more easily.
 
-While it is not a strict requirement, the best performance in terms of audio quailty is achieved when such packet is transmitted about 1000 times per second (this number is actually based on quite a few factors), with increasing quality degradation the further the actual rate of ACR packets from this 1kHz target.
+While it is not a strict requirement, the best performance in terms of audio quailty is achieved when such packet is transmitted about 1000 times per second (this number is actually based on quite a few factors), with increasing quality degradation the further the actual rate of ACR packets is from this 1kHz target.
 
-The issue with the EP952 is that it is hard wired to only send the ACR packet only once per frame, so about 50/60 times per second as opposed to the optimal 1000. This leads to two scenarios:
+The issue with the EP952 is that the chip is hard wired to send the ACR packet only once per frame, so about 50/60 times per second as opposed to the optimal 1000. This leads to two scenarios:
 
 . Most monitors do not rely on the frequency of ACR packets, but just on their contents in order to recover the audio clock. Such monitors are therefore unaffected.
-. Some monitors **rely** on the frequency of ACR packets being compliant with the standard in order to recover the audio clock. Such monitors won't be able to reproduce audio correctly or at all.
+. Some monitors **do rely** on the frequency of ACR packets being compliant with the standard in order to recover the audio clock. Such monitors won't be able to reproduce audio correctly or at all.
 
 Luckily the vast majority of TVs and monitors available today (even on the 2nd hand market) fall in the 1st cathegory. For the 2nd kind, there is unfortunately no reliable solution for now.
+
+====
+**What to do:**
+Unfortunately, if you are affected by this issue the only option is to utilize a different, possibly more modern monitor/TV
+====
