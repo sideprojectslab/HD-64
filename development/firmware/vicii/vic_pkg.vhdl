@@ -133,6 +133,7 @@ package vic_pkg is
 	);
 
 	-- NTSC with 64 lines
+  -- Delete me
 	constant c_vic_h64_specs : t_vic_specs :=
 	(
 		tvic => vic_h64,
