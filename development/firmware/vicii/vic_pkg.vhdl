@@ -133,6 +133,7 @@ package vic_pkg is
 	);
 
 	-- NTSC with 64 lines
+  -- Delete me
 	constant c_vic_h64_specs : t_vic_specs :=
 	(
 		tvic => vic_h64,
@@ -143,16 +144,16 @@ package vic_pkg is
 		xend => to_ppos(388 + 5),
 		xlen => to_ppos(512),
 		xres => to_ppos(411),
-		xfvc => to_ppos(21),
-		xlvc => to_ppos(21 + 319),
+		xfvc => to_ppos(17),
+		xlvc => to_ppos(17 + 319),
 
 		yref => to_ppos(0),
 		ynul => to_ppos(14),
 		yend => to_ppos(14 + 234),
 		ylen => to_ppos(262),
 		yres => to_ppos(234),
-		yfvc => to_ppos(57),
-		ylvc => to_ppos(57 + 199),
+		yfvc => to_ppos(51),
+		ylvc => to_ppos(51 + 199),
 
 		sprt_dma1_cycl => to_ppos(55),
 		sprt_dma2_cycl => to_ppos(56),
