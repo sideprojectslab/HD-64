@@ -147,12 +147,12 @@ package vic_pkg is
 		xlvc => to_ppos(21 + 319),
 
 		yref => to_ppos(0),
-		ynul => to_ppos(8),
-		yend => to_ppos(8 + 233),
+		ynul => to_ppos(14),
+		yend => to_ppos(14 + 234),
 		ylen => to_ppos(262),
 		yres => to_ppos(234),
-		yfvc => to_ppos(51),
-		ylvc => to_ppos(51 + 199),
+		yfvc => to_ppos(57),
+		ylvc => to_ppos(57 + 199),
 
 		sprt_dma1_cycl => to_ppos(55),
 		sprt_dma2_cycl => to_ppos(56),
