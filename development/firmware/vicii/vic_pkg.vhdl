@@ -135,6 +135,22 @@ package vic_pkg is
 	-- NTSC with 64 lines
 	constant c_vic_h64_specs : t_vic_specs :=
 	(
+
+--          | Video  | # of  | Visible | Cycles/ |  Visible
+--   Type   | system | lines |  lines  |  line   | pixels/line
+-- ---------+--------+-------+---------+---------+------------
+-- 6567R56A | NTSC-M |  262  |   234   |   64    |    411
+--  6567R8  | NTSC-M |  263  |   235   |   65    |    418
+--   6569   |  PAL-B |  312  |   284   |   63    |    403
+--
+--          | First  |  Last  |              |   First    |   Last
+--          | vblank | vblank | First X coo. |  visible   |  visible
+--   Type   |  line  |  line  |  of a line   |   X coo.   |   X coo.
+-- ---------+--------+--------+--------------+------------+-----------
+-- 6567R56A |   13   |   40   |  412 ($19c)  | 488 ($1e8) | 388 ($184)
+--  6567R8  |   13   |   40   |  412 ($19c)  | 489 ($1e9) | 396 ($18c)
+--   6569   |  300   |   15   |  404 ($194)  | 480 ($1e0) | 380 ($17c)
+
 		tvic => vic_h64,
 
 		cycl => to_ppos(64),
@@ -151,8 +167,8 @@ package vic_pkg is
 		yend => to_ppos(8 + 233),
 		ylen => to_ppos(262),
 		yres => to_ppos(234),
-		yfvc => to_ppos(51),
-		ylvc => to_ppos(51 + 199),
+		yfvc => to_ppos(25), --51
+		ylvc => to_ppos(25 + 199),
 
 		sprt_dma1_cycl => to_ppos(55),
 		sprt_dma2_cycl => to_ppos(56),
