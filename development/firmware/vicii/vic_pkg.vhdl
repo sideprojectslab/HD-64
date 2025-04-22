@@ -110,18 +110,18 @@ package vic_pkg is
 
 		cycl => to_ppos(63),       -- number of character cycles in a line
 		xref => to_ppos(16),       -- value of xpos on the 1st clock cycle of the 1st character access after the refresh pattern
-		xnul => to_ppos(497 + 2),  -- solely needed to center the picture
-		xend => to_ppos(389 + 2),  -- ((xnul + xres) % xlen) - 1
 		xlen => to_ppos(504),      -- number of pixels in a line
 		xres => to_ppos(396),      -- visible pixels in a line
+		xnul => to_ppos(497 + 2),  -- solely needed to center the picture
+		xend => to_ppos(389 + 2),  -- ((xnul + xres) % xlen) - 1
 		xfvc => to_ppos(24),       -- first video coordinate (after border)
 		xlvc => to_ppos(24 + 319), -- last video coordinate  (before border)
 
 		yref => to_ppos(0),
-		ynul => to_ppos(10),
-		yend => to_ppos(289),
 		ylen => to_ppos(312),
 		yres => to_ppos(280),
+		ynul => to_ppos(10),
+		yend => to_ppos(289),
 		yfvc => to_ppos(51),
 		ylvc => to_ppos(51 + 199),
 
@@ -133,23 +133,22 @@ package vic_pkg is
 	);
 
 	-- NTSC with 64 lines
-  -- Delete me
 	constant c_vic_h64_specs : t_vic_specs :=
 	(
 		tvic => vic_h64,
 
 		cycl => to_ppos(64),
 		xref => to_ppos(13),
-		xnul => to_ppos(490 + 5),
-		xend => to_ppos(388 + 5),
 		xlen => to_ppos(512),
 		xres => to_ppos(411),
-		xfvc => to_ppos(17),
-		xlvc => to_ppos(17 + 319),
+		xnul => to_ppos(490 + 5),
+		xend => to_ppos(388 + 5),
+		xfvc => to_ppos(21),
+		xlvc => to_ppos(21 + 319),
 
 		yref => to_ppos(0),
-		ynul => to_ppos(14),
-		yend => to_ppos(14 + 234),
+		ynul => to_ppos(8),
+		yend => to_ppos(8 + 233),
 		ylen => to_ppos(262),
 		yres => to_ppos(234),
 		yfvc => to_ppos(51),
@@ -169,18 +168,18 @@ package vic_pkg is
 
 		cycl => to_ppos(65),
 		xref => to_ppos(16),
-		xnul => to_ppos(505),
-		xend => to_ppos(402), -- ((xnul + xres) % xlen) - 1
 		xlen => to_ppos(520),
 		xres => to_ppos(418),
+		xnul => to_ppos(505),
+		xend => to_ppos(402), -- ((xnul + xres) % xlen) - 1
 		xfvc => to_ppos(24),
 		xlvc => to_ppos(24 + 319),
 
 		yref => to_ppos(0),
-		ynul => to_ppos(33),
-		yend => to_ppos(3),
 		ylen => to_ppos(263),
 		yres => to_ppos(235),
+		ynul => to_ppos(33),
+		yend => to_ppos(3),
 		yfvc => to_ppos(51),
 		ylvc => to_ppos(51 + 199),
 
