@@ -139,8 +139,8 @@ package vic_pkg is
 
 		cycl => to_ppos(64),
 		xref => to_ppos(13),
-		xnul => to_ppos(490),
-		xend => to_ppos(388),
+		xnul => to_ppos(490 + 10),
+		xend => to_ppos(388 + 10),
 		xlen => to_ppos(512),
 		xres => to_ppos(411),
 		xfvc => to_ppos(21),
