@@ -167,8 +167,8 @@ package vic_pkg is
 		yend => to_ppos(32 + 233),
 		ylen => to_ppos(262),
 		yres => to_ppos(234),
-		yfvc => to_ppos(49), 
-		ylvc => to_ppos(49 + 199),
+		yfvc => to_ppos(51), 
+		ylvc => to_ppos(51 + 199),
 
 		sprt_dma1_cycl => to_ppos(55),
 		sprt_dma2_cycl => to_ppos(56),
