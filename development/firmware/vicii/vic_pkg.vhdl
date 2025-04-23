@@ -157,7 +157,7 @@ package vic_pkg is
 		sprt_dma1_cycl => to_ppos(55),
 		sprt_dma2_cycl => to_ppos(56),
 		sprt_yexp_cycl => to_ppos(56),
-		sprt_disp_cycl => to_ppos(58),
+		sprt_disp_cycl => to_ppos(57),
 		sprt_strt_cycl => to_ppos(58)
 	);
 
