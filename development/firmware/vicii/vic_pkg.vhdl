@@ -53,7 +53,7 @@ package vic_pkg is
 
 	subtype t_colr_vector is unsigned_vector(open)(3 downto 0);
 
-	function to_ppos(x : integer) return t_ppos;
+	function to_ppos(x : natural; m : natural := 0) return t_ppos;
 
 	type t_vic_type is
 	(
@@ -108,20 +108,20 @@ package vic_pkg is
 	(
 		tvic => vic_h63,
 
-		cycl => to_ppos(63),       -- number of character cycles in a line
-		xref => to_ppos(16),       -- value of xpos on the 1st clock cycle of the 1st character access after the refresh pattern
-		xlen => to_ppos(504),      -- number of pixels in a line
-		xres => to_ppos(396),      -- visible pixels in a line
-		xnul => to_ppos(497 + 2),  -- solely needed to center the picture
-		xend => to_ppos(389 + 2),  -- ((xnul + xres) % xlen) - 1
-		xfvc => to_ppos(24),       -- first video coordinate (after border)
-		xlvc => to_ppos(24 + 319), -- last video coordinate  (before border)
+		cycl => to_ppos(63),                 -- number of character cycles in a line
+		xref => to_ppos(16),                 -- value of xpos on the 1st clock cycle of the 1st character access after the refresh pattern
+		xlen => to_ppos(504),                -- number of pixels in a line
+		xres => to_ppos(403),                -- visible pixels in a line
+		xnul => to_ppos(495),                -- solely needed to center the picture
+		xend => to_ppos(495 + 403 - 1, 504), -- ((xnul + xres - 1) % xlen)
+		xfvc => to_ppos(24),                 -- first video coordinate (after border)
+		xlvc => to_ppos(24 + 319),           -- last video coordinate  (before border)
 
 		yref => to_ppos(0),
 		ylen => to_ppos(312),
-		yres => to_ppos(280),
-		ynul => to_ppos(10),
-		yend => to_ppos(289),
+		yres => to_ppos(284),
+		ynul => to_ppos(8),
+		yend => to_ppos(8 + 280 - 1),
 		yfvc => to_ppos(51),
 		ylvc => to_ppos(51 + 199),
 
@@ -140,17 +140,17 @@ package vic_pkg is
 		cycl => to_ppos(64),
 		xref => to_ppos(13),
 		xlen => to_ppos(512),
-		xres => to_ppos(411),
-		xnul => to_ppos(480 + 5),
-		xend => to_ppos(378 + 5),
-		xfvc => to_ppos(24),
-		xlvc => to_ppos(24 + 319),
+		xres => to_ppos(420),
+		xnul => to_ppos(494),
+		xend => to_ppos(494 + 420 - 1, 512),
+		xfvc => to_ppos(21),
+		xlvc => to_ppos(21 + 319),
 
 		yref => to_ppos(0),
-		ynul => to_ppos(8),
-		yend => to_ppos(8 + 233),
 		ylen => to_ppos(262),
-		yres => to_ppos(234),
+		yres => to_ppos(252),
+		ynul => to_ppos(0),
+		yend => to_ppos(0 + 252 - 1),
 		yfvc => to_ppos(51),
 		ylvc => to_ppos(51 + 199),
 
@@ -169,17 +169,17 @@ package vic_pkg is
 		cycl => to_ppos(65),
 		xref => to_ppos(16),
 		xlen => to_ppos(520),
-		xres => to_ppos(418),
-		xnul => to_ppos(505),
-		xend => to_ppos(402), -- ((xnul + xres) % xlen) - 1
+		xres => to_ppos(420),
+		xnul => to_ppos(504),
+		xend => to_ppos(504 + 420 - 1, 520),
 		xfvc => to_ppos(24),
 		xlvc => to_ppos(24 + 319),
 
 		yref => to_ppos(0),
 		ylen => to_ppos(263),
-		yres => to_ppos(235),
-		ynul => to_ppos(33),
-		yend => to_ppos(3),
+		yres => to_ppos(252),
+		ynul => to_ppos(25),
+		yend => to_ppos(25 + 252 - 1, 263),
 		yfvc => to_ppos(51),
 		ylvc => to_ppos(51 + 199),
 
@@ -226,9 +226,13 @@ end package;
 
 package body vic_pkg is
 
-	function to_ppos(x : integer) return t_ppos is
+	function to_ppos(x : natural; m : natural := 0) return t_ppos is
+		variable ret : integer := x;
 	begin
-		return ltrim(unsigned(to_signed(x, t_ppos'length + 1)), 1);
+		if m /= 0 then
+			ret := x mod m;
+		end if;
+		return ltrim(unsigned(to_signed(ret, t_ppos'length + 1)), 1);
 	end function;
 
 end package body;
