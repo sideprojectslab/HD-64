@@ -154,11 +154,11 @@ package vic_pkg is
 		yfvc => to_ppos(51), 
 		ylvc => to_ppos(51 + 199),
 
-		sprt_dma1_cycl => to_ppos(55),
-		sprt_dma2_cycl => to_ppos(56),
+		sprt_dma1_cycl => to_ppos(57),
+		sprt_dma2_cycl => to_ppos(58),
 		sprt_yexp_cycl => to_ppos(56),
 		sprt_disp_cycl => to_ppos(57),
-		sprt_strt_cycl => to_ppos(61)
+		sprt_strt_cycl => to_ppos(57)
 	);
 
 	-- NTSC with 65 lines
