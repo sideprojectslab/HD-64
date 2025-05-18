@@ -50,7 +50,10 @@ port
 	o_bord : out std_wire;
 	o_colr : out t_colr;
 
-	enable : in  std_word(1 downto 0)
+	enable : in  std_word(1 downto 0);
+
+	mark_bord : out std_wire;
+	mark_colr : out t_colr
 );
 end entity;
 
@@ -69,6 +72,9 @@ architecture rtl of border is
 
 	signal reg_rsel : std_wire;
 	signal reg_csel : std_wire;
+
+	signal reg_rsel_1r : std_wire;
+	signal reg_csel_1r : std_wire;
 
 	alias  reg_ec   : std_word is reg(32)(3 downto 0);
 	alias  reg_den  : std_wire is reg(17)(4);
@@ -110,14 +116,17 @@ begin
 				if (cycl = c_cycle_yff) then
 					if (ypos = edge_lo) then
 						v_ff_vert := '1';
-					elsif (ypos = edge_hi) and (reg_den = '1') then
+					end if;
+					if (ypos = edge_hi) and (reg_den = '1') then
 						v_ff_vert := '0';
 					end if;
+				end if;
 
-				elsif (xpos = edge_ll) then
+				if (xpos = edge_ll) then
 					if (ypos = edge_lo) then
 						v_ff_vert := '1';
-					elsif (ypos = edge_hi) and (reg_den = '1') then
+					end if;
+					if (ypos = edge_hi) and (reg_den = '1') then
 						v_ff_vert := '0';
 					end if;
 				end if;
@@ -125,7 +134,8 @@ begin
 				-- main ff control
 				if (xpos = edge_rr) then
 					v_ff_main := '1';
-				elsif (xpos = edge_ll) and (v_ff_vert = '0') then
+				end if;
+				if (xpos = edge_ll) and (v_ff_vert = '0') then
 					v_ff_main := '0';
 				end if;
 
@@ -139,8 +149,23 @@ begin
 				-- turning off border
 				if enable = "00" then
 					o_bord <= '0';
-					o_vbrd <= '0';
 				end if;
+
+				-- marking csel and rsel changes (opening border)
+				reg_csel_1r <= reg_csel;
+				reg_rsel_1r <= reg_rsel;
+
+				mark_bord <= '0';
+				if reg_csel_1r /= reg_csel then
+					mark_bord <= '1';
+					mark_colr <= x"d"; -- LIGHT GREEN
+				end if;
+
+				if reg_rsel_1r /= reg_rsel then
+					mark_bord <= '1';
+					mark_colr <= x"4"; -- PURPLE
+				end if;
+
 			end if;
 
 			rst_1r <= rst;

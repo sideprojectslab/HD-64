@@ -145,13 +145,23 @@ image::{root}doc/pictures/hd64_power_long.JPG[width=60%, align=center]
 
 . If the leds do not turn on it is a sign that the supply lines might be inverted or not properly connected. This should only ever happen when installing the HD-64 on a Longboard. If this is the case check again the connection of the supply lines to the expansion port as outlined in <<Additional Steps for Longboard Installation>>
 
+. At this point, verify that you are getting composite video out of the original AV connector. (S-Video is available too but at this point of the installation process it is black & white).
+====
+**If the computer does not operate correctly (no analog video, weird characters on screen, flickering, glitches...) the installation was not performed correctly. DO NOT PROCEED ANY FURTHER!**. Please perform the following steps until the computer outputs proper analog video through the original AV connector:
+
+	.. Cross-check all solder points
+	.. Check for shortcircuit on the top and bottom of the motherboard
+	.. clean the motherboard with a soft brush
+	.. attempt replacing key components such as RAM, CPU, VIC-II, PLA...
+====
+
 . (optional) In order to permanently fasten the HD-64 to the motherboard, drive a long pin or a piece of wire through the retainer pins close to the rear of the HD-64 (Item 7 in <<legend-top>>) and solder one end to the top of the HD-64, and the other end to the exposed ground plane on the motherboard. (It is generally necessary to remove the motherboard from the case to perform this step)
 
 === Installing the VIC-II Interleaver
 
 [[longboard-installed]]
 .HD-64 Longboard Power Supply
-image::{root}doc/pictures/hd64_longboard.png[width=60%, align=center]
+image::{root}doc/pictures/hd64_longboard.png[width=55%, align=center]
 
 . Ensure that the computer is powered off
 
@@ -210,6 +220,7 @@ image::{root}doc/drawings/video_jumper.drawio.svg[align=center, width=60%]
 
 In the unlikely case that the performance of the video synchronization circuit drifts over time, to the point that synchronization is no longer obtained (HDMI video output absent or unstable) it is possible to close the jumper denominated "ADJ" (Item 5 in <<legend-top>>) to bring the synchronization circuit back within the optimal range of operation.
 
+[[config-util]]
 == Configuration Utility
 
 The various parameters of the HD-64, like color palette, scanlines, blue and wide screen can be configured through the configuration utility (`hd64_cfg_util.prg`) which runs directly on the C64.
@@ -282,12 +293,19 @@ If the C64 is power cycled after a firmware update error, more likely than not i
 Recovery mode produces no HDMI video output (the analog video output is still available) but does allow new firmware updates. It is thus possible to attempt a firmware update once again as described in <<update>> to restore the full functionality of the HD-64.
 
 == Troubleshooting
-. **Constant black screen (HDMI):**
+. **Constant black screen / "No cable Connected" (HDMI):**
+	.. Ensure the monitor supports HDMI 1.4 or later
 	.. Ensure that your monitor/TV supports 1920x1080p resolution (FullHD). The HD-64 can only output FullHD video and as such the monitor must support it. Crucially, several old 720p (HD) monitors support 1080i resolution (interlaced), which is also incompatible with the HD-64
 	.. see also "Intermittent black screen"
 
 . **Intermittent black screen (HDMI):**
 	.. Measure the voltage on the 5v rail on the HD-64 (right on the board). Anything below 4.8v won't allow the HDMI link to operate correctly. If this is the case please replace the C64 power supply
+
+. **Weird colors: (HDMI)**:
+	.. Ensure the monitor supports HDMI 1.4 or later
+	.. If the screen has a green tint (especially in areas that should be black) the output of the HD-64 is set to "RGB" mode but the screen is interpreting it as YCbCr
+	.. If the screen has a pink/violet tint (espacially in areas that should be black) the output is set to "YCC" (YCbCr) mode but the screen is interpreting is as RGB.
+	.. Use the xref:config-util[configuration utility] to change the video mode between "RGB", "YCC" and "DVI" until the picture looks correct. DVI mode is expected to always work, with the crucial disadvantage that it does not support audio through HDMI
 
 . **No Audio (HDMI):**
 	.. Check if sound is coming from the AV connector of the C64.
@@ -295,6 +313,9 @@ Recovery mode produces no HDMI video output (the analog video output is still av
 	.. Try to toggle mono/stereo audio in the configuration utility
 	.. Try a different screen to determine if your first display is affected by a known issue described in <<audio_issue>>
 
+. **Random crashes/freezes**
+	.. The HD-64 plugs directly on several sensitive internal lines of the C64. If one or more components are near the end of their life, the additional parasitic capacitance, though miniscule, can be enough to cause data transfer errors on the memory bus
+	.. Replace older components until the problem disappears, starting from the RAM and moving on to the PLA, the CPU and possibly others.
 
 == Known Issues
 === Analog Chroma Amplitude Hardware Bug

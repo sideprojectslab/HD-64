@@ -49,6 +49,9 @@ port
 	i_ypos      : in  t_ppos;
 	i_bdln      : in  std_wire;
 
+	i_mark_actv : in  std_wire;
+	i_mark_colr : in  t_colr;
+
 	i_bord_actv : in  std_wire;
 	i_bord_colr : in  t_colr;
 
@@ -142,6 +145,10 @@ begin
 					else
 						o_colr <= sprt_colr_2r;
 					end if;
+				end if;
+
+				if i_mark_actv then
+					o_colr <= i_mark_colr;
 				end if;
 
 				if g_mark_lines then

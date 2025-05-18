@@ -40,7 +40,8 @@ port
 	rst     : in  std_wire;
 
 	specs   : in  t_vic_specs;
-	wrt     : in  std_word(0 to c_num_regs - 1);
+	wrt     : in  std_word(t_regs'range);
+
 	reg     : in  t_regs;
 	strb    : in  t_strb;
 	cycl    : in  t_ppos;

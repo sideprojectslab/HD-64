@@ -41,21 +41,22 @@ generic
 );
 port
 (
-	clk   : in  std_wire;
-	rst   : in  std_wire;
+	clk     : in  std_wire;
+	rst     : in  std_wire;
 
 	-- gp3r master
-	o_req : out t_gp3r_req;
-	o_rsp : in  t_gp3r_rsp;
+	o_req   : out t_gp3r_req;
+	o_rsp   : in  t_gp3r_rsp;
 
-	strb  : in  t_strb;
-	db    : in  std_word(11 downto 0);
-	a     : in  unsigned(5 downto 0);
-	rw    : in  std_wire;
-	cs    : in  std_wire;
+	strb    : in  t_strb;
+	db      : in  std_word(11 downto 0);
+	a       : in  unsigned(5 downto 0);
+	rw      : in  std_wire;
+	cs      : in  std_wire;
 
-	reg   : out t_regs;
-	wrt   : out std_word(t_regs'range)
+	reg     : out t_regs;
+	wrt     : out std_word(t_regs'range);
+	gdot_en : in  std_wire
 );
 end entity;
 
@@ -78,6 +79,8 @@ architecture rtl of registers is
 
 	signal ext_enable : boolean;
 	signal count_code : natural range 0 to c_code'length - 1;
+
+	signal reg_i : t_regs;
 
 begin
 
@@ -105,8 +108,11 @@ begin
 			-- latching register value and operating master bus
 			if (strb = 10) then
 				a_tmp <= a;
+				wrt <= (others => '0');
+
 				if (cs = '0') and (rw = '0') and enable then
 					wen <= true;
+					wrt(to_integer(a)) <= '1';
 				end if;
 			end if;
 
@@ -114,44 +120,65 @@ begin
 				d_tmp <= db(7 downto 0);
 			end if;
 
-			if (strb = 15) and wen then
-				wen <= false;
-				wrt <= (others => '0');
-				wrt(to_integer(a_tmp)) <= '1';
-				reg(to_integer(a_tmp)) <= d_tmp;
 
-				-- the VIC contains 47 valid 8-bit registers [0:46] the rest
-				-- are used by the CPU to establish a write-only connection to
-				-- the HD-64 register bus. The connection does not support
-				-- backpressure
+			if (strb = 15) then
+				if wen then
+					wen <= false;
+					reg  (to_integer(a_tmp)) <= d_tmp;
+					reg_i(to_integer(a_tmp)) <= d_tmp;
 
-				-- first of all, we run a simple state machine that verifies
-				-- the special code necessary to enable the extended registes
+					-- the VIC contains 47 valid 8-bit registers [0:46] the rest
+					-- are used by the CPU to establish a write-only connection to
+					-- the HD-64 register bus. The connection does not support
+					-- backpressure
 
-				if (a_tmp = c_reg_code_idx) then
-					if (d_tmp = c_code(count_code)) then
-						if (count_code = c_code_len - 1) then
-							ext_enable <= true;
+					-- first of all, we run a simple state machine that verifies
+					-- the special code necessary to enable the extended registes
+
+					if (a_tmp = c_reg_code_idx) then
+						if (d_tmp = c_code(count_code)) then
+							if (count_code = c_code_len - 1) then
+								ext_enable <= true;
+							else
+								count_code <= count_code + 1;
+							end if;
 						else
-							count_code <= count_code + 1;
+							count_code <= 0;
 						end if;
-					else
-						count_code <= 0;
+					end if;
+
+					-- then we run a simple gp3r_master that writes to the bus
+					-- whenever a write is performed to the trigger register
+
+					if (a_tmp = c_reg_trig_idx) and ext_enable then
+						if (o_req.push = '0') or (o_rsp.read = '1') then
+							o_req.push <= '1';
+							o_req.addr <= vlresize(to_gp3r_addr(unsigned(reg_addr)), o_req.addr'length);
+							o_req.data <= vlresize(to_gp3r_data(reg_data), o_req.data'length);
+						end if;
 					end if;
 				end if;
-
-				-- then we run a simple gp3r_master that writes to the bus
-				-- whenever a write is performed to the trigger register
-
-				if (a_tmp = c_reg_trig_idx) and ext_enable then
-					if (o_req.push = '0') or (o_rsp.read = '1') then
-						o_req.push <= '1';
-						o_req.addr <= vlresize(to_gp3r_addr(unsigned(reg_addr)), o_req.addr'length);
-						o_req.data <= vlresize(to_gp3r_data(reg_data), o_req.data'length);
-					end if;
-				end if;
-
 			end if;
+
+			----------------------------------------------------------------
+			--                        GREY DOT BUG                        --
+			----------------------------------------------------------------
+
+			if strb(0) then
+				-- aligned to strb=14 because it operates on all clock cycles
+				if (gdot_en = '1') then
+					for i in 32 to 46 loop
+						if (wrt(i) = '1') then
+							if (strb = 13) then
+								-- overriding with grey, will get re-overwritten
+								-- on the next odd cycle
+								reg(i)(3 downto 0) <= x"f";
+							end if;
+						end if;
+					end loop;
+				end if;
+			end if;
+
 
 			rst_1r <= rst;
 			if rst_1r then

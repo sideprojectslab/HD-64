@@ -36,18 +36,18 @@ use     work.vic_pkg.all;
 entity graphics_gen is
 port
 (
-	clk    : in  std_wire;
-	rst    : in  std_wire;
+	clk     : in  std_wire;
+	rst     : in  std_wire;
 
-	reg    : in  t_regs;
-	strb   : in  t_strb;
+	reg     : in  t_regs;
+	strb    : in  t_strb;
 
-	i_actv : in  std_wire;
-	i_vbrd : in  std_wire;
-	i_grfx : in  std_word( 7 downto 0);
-	i_data : in  std_word(11 downto 0);
-	o_bgnd : out std_wire;
-	o_colr : out t_colr;
+	i_actv  : in  std_wire;
+	i_vbrd  : in  std_wire;
+	i_grfx  : in  std_word( 7 downto 0);
+	i_data  : in  std_word(11 downto 0);
+	o_bgnd  : out std_wire;
+	o_colr  : out t_colr;
 
 	-- diagnostics & debug
 	mark_mode : in  std_wire
@@ -97,6 +97,7 @@ architecture rtl of graphics_gen is
 	signal mcm_old    : std_wire;
 
 	signal gfx_val    : unsigned(1 downto 0);
+	signal bg_sel     : unsigned(1 downto 0);
 	signal gfx_bgnd   : std_wire;
 
 
@@ -216,7 +217,7 @@ begin
 				end if;
 
 				----------------------------------------------------------------
-				--                      COLOR SELECTION                       --
+				--                       COLOR LATCHING                       --
 				----------------------------------------------------------------
 
 				bg_colr_1r(0) <= unsigned(reg(33)(3 downto 0));
@@ -224,6 +225,10 @@ begin
 				bg_colr_1r(2) <= unsigned(reg(35)(3 downto 0));
 				bg_colr_1r(3) <= unsigned(reg(36)(3 downto 0));
 				bg_colr_2r <= bg_colr_1r;
+
+				----------------------------------------------------------------
+				--                       COLOR SELECTION                      --
+				----------------------------------------------------------------
 
 				v_mc_flag := data_3r(11);
 
@@ -250,16 +255,6 @@ begin
 					end if;
 				end if;
 
-				-- vertical border disabled graphics, not clear if the delay is correct here
-				if vbrd_1r = '1' then
-					v_gfx_val  := (others => '0');
-					v_gfx_bgnd := '1';
-				end if;
-
-				-- saving former pixel values
-				gfx_val  <= v_gfx_val;
-				gfx_bgnd <= v_gfx_bgnd;
-
 				-- color selection is based on current mode flags
 				v_mode := get_mode(ecm, bmm, mcm);
 
@@ -269,6 +264,16 @@ begin
 				v_gfx_colr(3) := (others => '0');
 
 				v_data_colr := data_3r;
+
+				-- only useful for ECM
+				v_bg_sel := unsigned(v_data_colr(7 downto 6));
+
+				-- vertical border disables graphics, not clear if the delay is correct here
+				if vbrd_1r = '1' then
+					v_bg_sel   := bg_sel; -- this is a super dirty hack to fix ECM
+					v_gfx_val  := "00";
+					v_gfx_bgnd := '1';
+				end if;
 
 				case v_mode is
 					when MODE_STD_TEXT =>
@@ -303,7 +308,6 @@ begin
 						v_gfx_colr(3) := unsigned(v_data_colr(11 downto 8));
 
 					when MODE_ECM_TEXT =>
-						v_bg_sel      := unsigned(v_data_colr(7 downto 6));
 						v_gfx_colr(0) := bg_colr_2r(to_integer(v_bg_sel));
 						v_gfx_colr(1) := bg_colr_2r(to_integer(v_bg_sel));
 						v_gfx_colr(2) := unsigned(v_data_colr(11 downto 8));
@@ -313,13 +317,17 @@ begin
 						-- NOP
 				end case;
 
+				-- saving former pixel values
+				gfx_val  <= v_gfx_val;
+				gfx_bgnd <= v_gfx_bgnd;
+				bg_sel   <= v_bg_sel;
+
 				----------------------------------------------------------------
 				--                           OUTPUT                           --
 				----------------------------------------------------------------
 
 				o_colr <= v_gfx_colr(to_integer(v_gfx_val));
 				o_bgnd <= v_gfx_bgnd;
-
 
 				if mark_mode then
 					o_bgnd <= '0';
@@ -334,13 +342,13 @@ begin
 								o_colr <= x"2"; -- RED
 							end if;
 						when MODE_STD_BMAP =>
-							o_colr <= x"2";     -- CYAN
+							o_colr <= x"3";     -- CYAN
 						when MODE_MCL_BMAP =>
-							o_colr <= x"3";     -- PURPLE
+							o_colr <= x"4";     -- PURPLE
 						when MODE_ECM_TEXT =>
-							o_colr <= x"4";     -- GREEN
+							o_colr <= x"5";     -- GREEN
 						when others =>
-							o_colr <= x"5";     -- BLUE
+							o_colr <= x"6";     -- BLUE
 					end case;
 				end if;
 

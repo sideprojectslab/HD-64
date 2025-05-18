@@ -138,19 +138,19 @@ package vic_pkg is
 		tvic => vic_h64,
 
 		cycl => to_ppos(64),
-		xref => to_ppos(13),
+		xref => to_ppos(16),
 		xlen => to_ppos(512),
 		xres => to_ppos(420),
-		xnul => to_ppos(494),
-		xend => to_ppos(494 + 420 - 1, 512),
-		xfvc => to_ppos(21),
-		xlvc => to_ppos(21 + 319),
+		xnul => to_ppos(495),
+		xend => to_ppos(495 + 420 - 1, 512),
+		xfvc => to_ppos(24),
+		xlvc => to_ppos(24 + 319),
 
 		yref => to_ppos(0),
 		ylen => to_ppos(262),
 		yres => to_ppos(252),
-		ynul => to_ppos(0),
-		yend => to_ppos(0 + 252 - 1),
+		ynul => to_ppos(26),
+		yend => to_ppos(26 + 252 - 1, 262),
 		yfvc => to_ppos(51),
 		ylvc => to_ppos(51 + 199),
 
@@ -158,7 +158,7 @@ package vic_pkg is
 		sprt_dma2_cycl => to_ppos(56),
 		sprt_yexp_cycl => to_ppos(56),
 		sprt_disp_cycl => to_ppos(57),
-		sprt_strt_cycl => to_ppos(57)
+		sprt_strt_cycl => to_ppos(58)
 	);
 
 	-- NTSC with 65 lines

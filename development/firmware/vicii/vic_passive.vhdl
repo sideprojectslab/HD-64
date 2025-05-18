@@ -73,6 +73,9 @@ port
 	o_lend       : out std_wire;
 	o_colr       : out t_colr;
 
+	-- feature switches
+	gdot_en      : in  std_wire;
+
 	-- diagnostics
 	sprt_en      : in  std_word(7 downto 0) := (others => '1');
 	bord_en      : in  std_word(1 downto 0) := (others => '1');
@@ -113,6 +116,9 @@ architecture rtl of vic_passive is
 	signal vbrd_actv : std_wire;
 	signal bord_actv : std_wire;
 	signal bord_colr : t_colr;
+
+	signal mark_actv : std_wire := '0';
+	signal mark_colr : t_colr   := x"0";
 
 	signal grfx_colr : t_colr;
 	signal grfx_bgnd : std_wire;
@@ -170,19 +176,20 @@ begin
 	port map
 	(
 		-- VIC signals
-		clk   => clk,
-		rst   => rst,
+		clk     => clk,
+		rst     => rst,
 
-		o_req => o_req,
-		o_rsp => o_rsp,
+		o_req   => o_req,
+		o_rsp   => o_rsp,
 
-		strb  => strb,
-		db    => mf_db ,
-		a     => mf_a  ,
-		rw    => mf_rw ,
-		cs    => mf_cs ,
-		reg   => reg,
-		wrt   => wrt
+		strb    => strb,
+		db      => mf_db ,
+		a       => mf_a  ,
+		rw      => mf_rw ,
+		cs      => mf_cs ,
+		reg     => reg,
+		wrt     => wrt,
+		gdot_en => gdot_en
 	);
 
 
@@ -285,6 +292,10 @@ begin
 			o_bord => bord_actv,
 			o_colr => bord_colr,
 			enable => bord_en
+
+--			-- marking border events
+--			mark_bord => mark_actv,
+--			mark_colr => mark_colr
 		);
 
 		------------------------------------------------------------------------
@@ -330,7 +341,11 @@ begin
 			i_bdln      => bdln,
 			i_xpos      => xpos,
 			i_ypos      => ypos,
-			i_bord_actv => bord_actv or vbrd_actv,
+
+			i_mark_actv => mark_actv,
+			i_mark_colr => mark_colr,
+
+			i_bord_actv => bord_actv,
 			i_bord_colr => bord_colr,
 
 			i_sprt_actv => sprt_actv,
