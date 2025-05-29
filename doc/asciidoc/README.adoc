@@ -315,7 +315,19 @@ Recovery mode produces no HDMI video output (the analog video output is still av
 
 . **Random crashes/freezes**
 	.. The HD-64 plugs directly on several sensitive internal lines of the C64. If one or more components are near the end of their life, the additional parasitic capacitance, though miniscule, can be enough to cause data transfer errors on the memory bus
-	.. Replace older components until the problem disappears, starting from the RAM and moving on to the PLA, the CPU and possibly others.
+	.. Replace older components until the problem disappears, starting from the RAM and moving on to the PLA, the CPU and possibly others, or consider having your computer serviced.
+
+. **Glitchy graphics/missing pixels**
+	.. Assess if the same glitches are present on the analog video output. If that is the case:
+		... disconnect the flat cable from the HD-64 and reassess
+		... remove the interleaver completely and reassess
+		... inspect the C64 motherboard board for shorts, cold solder or loose solder balls, and clean it with a soft brush
+		... if the glitches are still present it means that some component on the C64 (other than the HD-64) is defective. Consider having your computer serviced.
+	.. If the glitches are only present on the digital video output:
+		... disconnect and re-connect the flat cable to the HD-64
+		... re-seat the interleaver on the motherboard and the VIC-II on the interleaver while checking for bent pins
+		... examine the flat cable for damage/tearing
+		... check for continuity between the flat cable gold fingers and the respective pins on the interleaver socket (only the pins connected to a trace). If one or more pins are not making proper contact it might mean that the press-fit has loosened up. For all affected pins add a small amount of solder of solder between the pad on the flat cable and the pin on the bottom side of the interleaver socket to restore the contact
 
 == Known Issues
 === Analog Chroma Amplitude Hardware Bug
@@ -337,12 +349,12 @@ Even with this issue it is likely that there will be no noticeable problem on CR
 === HDMI PLL Bias Hardware Bug
 Boards of production batch 1 and 2 are affected, though this bug is unlikely to have any real world ripercussions.
 
-Resistor R50 has the wrong value (22kOhm), causing the PLL bias to be lower than originally intended (1.5V instead of 2.1V), though well within the allowed margin (1V to 3V).
+Resistor R50 has the wrong value (22kOhm), causing the PLL bias to be lower than originally intended (1.5V instead of 2.1V), though well within the allowed range (1V to 3V).
 
 .HD-64 PLL Bias Hardware Bug
 image::{root}doc/drawings/adj_hw_bug.drawio.svg[width=70%, align=center]
 
-This imperfection means that the "Adj jumper" (Item 5 in <<legend-top>>) will not be effective against a possible decrease of the PLL center frequency due to component aging. Should the PLL bias voltage spontaneously drift towards or below 1V over time, closing the "Adj jumper" will further lower the bias, causing the PLL to operate even out of specs.
+This imperfection means that the "Adj jumper" (Item 5 in <<legend-top>>) will not be effective against a possible decrease of the PLL center frequency due to component aging. Should the PLL bias voltage spontaneously drift towards or below 1V over time, closing the "Adj jumper" will further lower the bias, causing the PLL to operate even more out of spec.
 
 ====
 **What to do:**
@@ -359,9 +371,9 @@ The long version...
 
 HDMI Sinks (TVs, displays, monitors) must recover the sampling rate of the incoming audio stream in order to play it back. Different sinks will use different techniques to do so. Some of these techniques are "smarter" than others, as in, they rely less on the assumption that the source is 100% compliant to the HDMI standard, which in turn improves overall interoperability, especially in the presence of hardware bugs.
 
-Among the many requirements of the HDMI standard, is that the source must transmit a special ACR (Audio Clock Regeneration) packet at a certain rate. This packet contains information about how the audio clock was generated on the source, so that the sink can replicate it more easily.
+One of the many requirements of the HDMI standard, is that the source must transmit a special ACR (Audio Clock Regeneration) packet at a certain rate. This packet contains information about how the audio clock was generated on the source, so that the sink can replicate it more easily.
 
-While it is not a strict requirement, the best performance in terms of audio quailty is achieved when such packet is transmitted about 1000 times per second (this number is actually based on quite a few factors), with increasing quality degradation the further the actual rate of ACR packets is from this 1kHz target.
+While it is not a strict requirement, the best performance in terms of audio quailty is achieved when such packet is transmitted about 1000 times per second (this number is actually based on a number of factors), with increasing quality degradation the further the actual rate of ACR packets is from this 1kHz target.
 
 The issue with the EP952 is that the chip is hard wired to send the ACR packet only once per frame, so about 50/60 times per second as opposed to the optimal 1000. This leads to two scenarios:
 
