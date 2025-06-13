@@ -1,6 +1,6 @@
 # HD-64
 
-If you would like to get in touch with the developer, please join the SPL [Discord](https://discord.gg/gJsCgebkDw) server.
+To **REPORT ISSUES** or to simply get in touch with the developer, please join the SPL [Discord](https://discord.gg/gJsCgebkDw) server.
 
 [FULL README (PDF)](https://raw.githubusercontent.com/sideprojectslab/HD-64/main/doc/README.pdf)
 
