@@ -81,6 +81,10 @@ architecture rtl of border is
 
 begin
 
+	----------------------------------------------------------------------------
+	--                             DIAGNOSTICS                                --
+	----------------------------------------------------------------------------
+
 	process(all) is
 	begin
 		reg_rsel <= reg(17)(3);
@@ -97,6 +101,8 @@ begin
 		end if;
 	end process;
 
+	----------------------------------------------------------------------------
+
 	edge_ll <= specs.xfvc + 7 when (reg_csel = '0') else specs.xfvc;
 	edge_rr <= specs.xlvc - 8 when (reg_csel = '0') else specs.xlvc + 1;
 	edge_hi <= specs.yfvc + 4 when (reg_rsel = '0') else specs.yfvc;
@@ -112,23 +118,19 @@ begin
 			v_ff_vert := ff_vert;
 
 			if strb(0) = '1' then
+
 				-- vertical ff control
-				if (cycl = c_cycle_yff) then
-					if (ypos = edge_lo) then
-						v_ff_vert := '1';
-					end if;
-					if (ypos = edge_hi) and (reg_den = '1') then
-						v_ff_vert := '0';
-					end if;
+				if (ypos = edge_lo) then
+					v_ff_vert := '1';
 				end if;
 
 				if (xpos = edge_ll) then
-					if (ypos = edge_lo) then
-						v_ff_vert := '1';
-					end if;
-					if (ypos = edge_hi) and (reg_den = '1') then
-						v_ff_vert := '0';
-					end if;
+					o_vbrd <= v_ff_vert;
+				end if;
+
+				if (ypos = edge_hi) and (reg_den = '1') then
+					v_ff_vert := '0';
+					o_vbrd    <= v_ff_vert;
 				end if;
 
 				-- main ff control
@@ -139,12 +141,20 @@ begin
 					v_ff_main := '0';
 				end if;
 
+				-- this is copied from kawarii
+				if (cycl = 0)then
+					o_vbrd <= v_ff_vert;
+				end if;
+
 				o_bord <= v_ff_main;
-				o_vbrd <= v_ff_vert;
 				o_colr <= t_colr(reg_ec);
 
 				ff_vert <= v_ff_vert;
 				ff_main <= v_ff_main;
+
+				----------------------------------------------------------------
+				--                       DIAGNOSTICS                          --
+				----------------------------------------------------------------
 
 				-- turning off border
 				if enable = "00" then
@@ -165,6 +175,8 @@ begin
 					mark_bord <= '1';
 					mark_colr <= x"4"; -- PURPLE
 				end if;
+
+				----------------------------------------------------------------
 
 			end if;
 
