@@ -111,9 +111,9 @@ package vic_pkg is
 		cycl => to_ppos(63),                 -- number of character cycles in a line
 		xref => to_ppos(16),                 -- value of xpos on the 1st clock cycle of the 1st character access after the refresh pattern
 		xlen => to_ppos(504),                -- number of pixels in a line
-		xres => to_ppos(403),                -- visible pixels in a line
-		xnul => to_ppos(496),                -- solely needed to center the picture
-		xend => to_ppos(496 + 403 - 1, 504), -- ((xnul + xres - 1) % xlen)
+		xres => to_ppos(402),                -- visible pixels in a line
+		xnul => to_ppos(498),                -- solely needed to center the picture
+		xend => to_ppos(498 + 402 - 1, 504), -- ((xnul + xres - 1) % xlen)
 		xfvc => to_ppos(24),                 -- first video coordinate (after border)
 		xlvc => to_ppos(24 + 319),           -- last video coordinate  (before border)
 

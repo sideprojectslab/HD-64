@@ -83,6 +83,7 @@ port
 	mark_mode    : in  std_wire := '0';
 	mark_bdln    : in  std_wire := '0';
 	mark_sprt    : in  std_word(7 downto 0) := (others => '0');
+	force_sprt   : in  std_word(7 downto 0) := (others => '0');
 	lock         : out std_wire
 );
 end entity;
@@ -316,6 +317,7 @@ begin
 			ypos    => ypos,
 			enable  => sprt_en,
 			mark    => mark_sprt,
+			enforce => force_sprt,
 
 			i_data  => mf_db(7 downto 0),
 			o_prio  => sprt_prio,

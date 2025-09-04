@@ -50,6 +50,7 @@ port
 
 	enable  : in  std_word(7 downto 0);
 	mark    : in  std_word(7 downto 0);
+	enforce : in  std_word(7 downto 0);
 
 	i_data  : in  std_word(7 downto 0);
 	o_prio  : out std_wire;
@@ -69,8 +70,6 @@ architecture rtl of sprites is
 
 	signal acquire    : std_wire;
 	signal spen       : std_word(7 downto 0);
-	signal spen_1r    : std_word(7 downto 0);
-	signal spen_2r    : std_word(7 downto 0);
 	signal prio       : std_word(7 downto 0);
 	signal mxmc       : std_word(7 downto 0);
 	signal xexp_1r    : std_word(7 downto 0);
@@ -248,11 +247,8 @@ begin
 
 						yexp_1r(i) <= yexp(i);
 
-						spen_1r(i) <= spen(i);
-						spen_2r(i) <= spen_1r(i);
-
 						-- delaying display by one character cycle
-						ydisp(i)   <= ypend(i);
+						ydisp(i)   <= ypend(i) or enforce(i);
 
 						if (yexp(i) = '0') and (yincr(i) = '0') then
 							yincr(i) <= '1';
