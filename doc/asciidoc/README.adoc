@@ -161,27 +161,27 @@ image::{root}doc/pictures/hd64_power_long.JPG[width=60%, align=center]
 
 . Assemble the press-fit interleaver
 
-//[cols="^.^a"]
-//[width=80%]
-//[.center]
-//|===
-//
-//| [[press-fit-1]]
-//.HD-64 Press-Fit Interleaver and press-tool
-//image::{root}doc/pictures/press-fit-1.png[width=55%, align=center]
-//
-//| [[press-fit-2]]
-//.Positioning the flat cable on top of the socket
-//image::{root}doc/pictures/press-fit-2.png[width=55%, align=center]
-//
-//| [[press-fit-4]]
-//.Pushing the flat cable all the way down towards the back of the socket
-//image::{root}doc/pictures/press-fit-4.png[width=55%, align=center]
-//
-//| [[press-fit-5]]
-//.Pushing the flat cable all the way down towards the front of the socket
-//image::{root}doc/pictures/press-fit-5.png[width=55%, align=center]
-//|===
+[cols="^.^a"]
+[width=80%]
+[.center]
+|===
+
+| [[press-fit-1]]
+.HD-64 Press-Fit Interleaver and press-tool
+image::{root}doc/pictures/press-fit-1.png[width=55%, align=center]
+
+| [[press-fit-2]]
+.Positioning the flat cable on top of the socket
+image::{root}doc/pictures/press-fit-2.png[width=55%, align=center]
+
+| [[press-fit-3]]
+.Pushing the flat cable all the way down towards the back of the socket
+image::{root}doc/pictures/press-fit-3.png[width=55%, align=center]
+
+| [[press-fit-4]]
+.Pushing the flat cable all the way down towards the front of the socket while still applying pressure to the back
+image::{root}doc/pictures/press-fit-4.png[width=55%, align=center]
+|===
 
 . Ensure that the computer is powered off
 
