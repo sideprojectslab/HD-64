@@ -42,7 +42,7 @@
 "XC7S15-1FTGB196C","","U4","eas_cdb_fpga:BGA196C100P14X14_1500X1500X155N"
 "AZ1117CR-3.3TRG1","","U5","eas_cdb_power:SOT-89-3"
 "TPS62A02ADRLR","","U6, U17","eas_cdb_power:SOT-563"
-"LR LR8103B-T18","","U7, U8","eas_cdb_power:TSOT-23-5"
+"LR8103B-T18","","U7, U8","eas_cdb_power:TSOT-23-5"
 "EP952","","U9","eas_cdb_ic_misc:LQFP-64_7x7mm_P0.4mm"
 "TLV9061IDBVR","","U10","eas_cdb_opamp:SOT-23-5"
 "CD74HC4046APWR","","U11","eas_cdb_oscillator:TSSOP-16_4.4x5mm_P0.65mm"
