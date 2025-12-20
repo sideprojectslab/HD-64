@@ -39,6 +39,7 @@ The HD-64 still needs a VIC-II chip (original or replacement) to be present in t
 
 HD-64 can be purchased pre-assembled from these authorized shops:
 
+- link:https://www.retrobuddys.com[Retro Buddys]
 - link:https://www.retro8bitshop.com/product/spl-hd-64/[Retro8BitShop]
 - link:https://www.retro-updates.com/product/17245372/hd-64-commodore-64-hdmi-output-fpga[Retro-Updates]
 
