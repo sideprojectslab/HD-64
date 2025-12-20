@@ -294,7 +294,9 @@ Due to the fact that the "breadbin" and the "C64-C" hase have holes in different
 . Download and extract the latest firmware update package from link:https://github.com/sideprojectslab/HD-64/releases[GitHub]
 . Power on the C64
 . Connect the HD-64 to a PC through the USB-C port
-. Verify that the HD-64 appears as a new COM port under "Device Manager". If this does not happen, install the appropriate FTDI drivers
+. Verify that the HD-64 appears as a new COM port under "Device Manager". If this does not happen, install the appropriate drivers:
+	.. Up to HW version v0.2 the FTDI drivers can be found here: link:https://ftdichip.com/drivers/vcp-drivers/[]
+	.. For HW version v0.3 and above drivers can be found here: link:https://www.wch-ic.com/downloads/ch341ser_exe.html[]
 . Once the HD-64 has been recognized run the update executable (*firmware_update.exe*)
 . Follow the prompts. When asked to choose the COM port, always try to let the tool "auto-detect" the HD-64 first, and only if that does not work specify the correct COM port manually.
 . Once the firmware update executable succeeds power-cycle the C64.
