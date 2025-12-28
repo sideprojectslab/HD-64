@@ -39,7 +39,7 @@ The HD-64 still needs a VIC-II chip (original or replacement) to be present in t
 
 HD-64 can be purchased pre-assembled from these authorized shops:
 
-- link:https://www.retrobuddys.com[Retro Buddys]
+- link:https://www.retrobuddys.com/shop/rgb2hdmi/hd-64-von-spl/[Retro Buddys]
 - link:https://www.retro8bitshop.com/product/spl-hd-64/[Retro8BitShop]
 - link:https://www.retro-updates.com/product/17245372/hd-64-commodore-64-hdmi-output-fpga[Retro-Updates]
 
@@ -99,6 +99,11 @@ image::{root}doc/drawings/legend_bot.drawio.svg[align=center]
 |===
 
 == Installation
+
+=== Important Warnings
+* Once installed, ensure the HD-64 receives unobstructed airflow. This may involve removing or cutting the cardboard RF shield so that it does not cover the HD-64
+
+* The only chip on the HD-64 where it makes sense (optionally) to install a small heatsink is the HDMI encoder (EP952), right behind the HDMI connector. All other chips either do not produce significant heat, or are rated to withstand long term high temperatures.
 
 === Before Installation
 * The Original RF-Modulator must be removed and any residual solder needs to be removed from the RF-Modulator header pads on the motherboard
