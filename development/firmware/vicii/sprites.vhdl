@@ -391,6 +391,7 @@ begin
 				acquire <= '0';
 				xdisp   <= (others => '0');
 				ydisp   <= (others => '0');
+				ypend   <= (others => '0');
 				spdma   <= (others => '0');
 			end if;
 

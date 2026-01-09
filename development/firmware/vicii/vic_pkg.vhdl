@@ -121,7 +121,7 @@ package vic_pkg is
 		ylen => to_ppos(312),
 		yres => to_ppos(284),
 		ynul => to_ppos(8),
-		yend => to_ppos(8 + 280 - 1),
+		yend => to_ppos(8 + 284 - 1, 312),
 		yfvc => to_ppos(51),
 		ylvc => to_ppos(51 + 199),
 
