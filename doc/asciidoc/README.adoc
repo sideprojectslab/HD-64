@@ -39,6 +39,7 @@ The HD-64 still needs a VIC-II chip (original or replacement) to be present in t
 
 HD-64 can be purchased pre-assembled from these authorized shops:
 
+- link:https://www.retrobuddys.com/shop/rgb2hdmi/hd-64-von-spl/[Retro Buddys]
 - link:https://www.retro8bitshop.com/product/spl-hd-64/[Retro8BitShop]
 - link:https://www.retro-updates.com/product/17245372/hd-64-commodore-64-hdmi-output-fpga[Retro-Updates]
 
@@ -98,6 +99,11 @@ image::{root}doc/drawings/legend_bot.drawio.svg[align=center]
 |===
 
 == Installation
+
+=== Important Warnings
+* Once installed, ensure the HD-64 receives unobstructed airflow. This may involve removing or cutting the cardboard RF shield so that it does not cover the HD-64
+
+* The only chip on the HD-64 where it makes sense (optionally) to install a small heatsink is the HDMI encoder (EP952), right behind the HDMI connector. All other chips either do not produce significant heat, or are rated to withstand long term high temperatures.
 
 === Before Installation
 * The Original RF-Modulator must be removed and any residual solder needs to be removed from the RF-Modulator header pads on the motherboard
@@ -159,9 +165,29 @@ image::{root}doc/pictures/hd64_power_long.JPG[width=60%, align=center]
 
 === Installing the VIC-II Interleaver
 
-[[longboard-installed]]
-.HD-64 Longboard Power Supply
-image::{root}doc/pictures/hd64_longboard.png[width=55%, align=center]
+. Assemble the press-fit interleaver
+
+[cols="^.^a"]
+[width=80%]
+[.center]
+|===
+
+| [[press-fit-1]]
+.HD-64 Press-Fit Interleaver and press-tool
+image::{root}doc/pictures/press-fit-1.png[width=55%, align=center]
+
+| [[press-fit-2]]
+.Positioning the flat cable on top of the socket
+image::{root}doc/pictures/press-fit-2.png[width=55%, align=center]
+
+| [[press-fit-3]]
+.Pushing the flat cable all the way down towards the back of the socket
+image::{root}doc/pictures/press-fit-3.png[width=55%, align=center]
+
+| [[press-fit-4]]
+.Pushing the flat cable all the way down towards the front of the socket while still applying pressure to the back
+image::{root}doc/pictures/press-fit-4.png[width=55%, align=center]
+|===
 
 . Ensure that the computer is powered off
 
@@ -172,6 +198,10 @@ image::{root}doc/pictures/hd64_longboard.png[width=55%, align=center]
 . Place the Interleaver socket (with the VIC-II installed on top) on the VIC-II socket on the motherboard and press until both the interleaver is well seated in the motherboard socket and the VIC-II is well seated in the Interleaver socket
 
 . If the motherboard socket rejects the interleaver, place the additional flat-pin "sacrificial" socket between the motherboard and the Interleaver
+
+[[longboard-installed]]
+.HD-64 Longboard Power Supply
+image::{root}doc/pictures/hd64_longboard.png[width=55%, align=center]
 
 . Connect the flat-cable to the HD-64 *with the dark stiffener on top and the gold contacts on the bottom*.
 	* Open the receptacle by pulling out the black tab parallel to the surface of the board
@@ -269,7 +299,9 @@ Due to the fact that the "breadbin" and the "C64-C" hase have holes in different
 . Download and extract the latest firmware update package from link:https://github.com/sideprojectslab/HD-64/releases[GitHub]
 . Power on the C64
 . Connect the HD-64 to a PC through the USB-C port
-. Verify that the HD-64 appears as a new COM port under "Device Manager". If this does not happen, install the appropriate FTDI drivers
+. Verify that the HD-64 appears as a new COM port under "Device Manager". If this does not happen, install the appropriate drivers:
+	.. Up to HW version v0.2 the FTDI drivers can be found here: link:https://ftdichip.com/drivers/vcp-drivers/[]
+	.. For HW version v0.3 and above drivers can be found here: link:https://www.wch-ic.com/downloads/ch341ser_exe.html[]
 . Once the HD-64 has been recognized run the update executable (*firmware_update.exe*)
 . Follow the prompts. When asked to choose the COM port, always try to let the tool "auto-detect" the HD-64 first, and only if that does not work specify the correct COM port manually.
 . Once the firmware update executable succeeds power-cycle the C64.
@@ -328,6 +360,7 @@ Recovery mode produces no HDMI video output (the analog video output is still av
 		... re-seat the interleaver on the motherboard and the VIC-II on the interleaver while checking for bent pins
 		... examine the flat cable for damage/tearing
 		... check for continuity between the flat cable gold fingers and the respective pins on the interleaver socket (only the pins connected to a trace). If one or more pins are not making proper contact it might mean that the press-fit has loosened up. For all affected pins add a small amount of solder of solder between the pad on the flat cable and the pin on the bottom side of the interleaver socket to restore the contact
+		... If the flat cable is of the push-fit kind (all new batches) add a bit of solder between the socket pins and the oval pads of the flat cable. Only the pins that carry a wire need to be soldered.
 
 == Known Issues
 === Analog Chroma Amplitude Hardware Bug
