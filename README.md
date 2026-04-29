@@ -9,19 +9,27 @@ HD-64 is an RF-modulator replacement for the Commodore-64 computer which feature
 Instead of digitizing the VIC's analog video output signal, the HD-64 "sniffs" the C64's memory bus and recreates a pixel-perfect video output by means of emulation implemented on FPGA. The reconstructed video is then upscaled to Full-HD resolution, merged with the digitized audio from the SID, and sent out as HDMI.
 
 <figure align="center" id="HD-64">
-	<img src="doc/pictures/hd64_solo.png" width="70%">
+	<img src="doc/pictures/hd64_solo.png" width="50%">
 	<figcaption>HD-64 Main Board</figcaption>
 </figure>
 
 <figure align="center" id="hd64_shortboard_back">
-	<img src="doc/pictures/hd64_shortboard_back.png" width="100%">
+	<img src="doc/pictures/hd64_shortboard_back.png" width="60%">
 	<figcaption>HD-64 Short-Board Assembly</figcaption>
 </figure>
 
 <figure align="center" id="hd64_longboard">
-	<img src="doc/pictures/hd64_longboard.png" width="70%">
+	<img src="doc/pictures/hd64_longboard.png" width="50%">
 	<figcaption>HD-64 Long-Board Assembly</figcaption>
 </figure>
+
+HD-64 can be purchased pre-assembled from these authorized shops:
+
+- [RetroBuddys](https://www.retrobuddys.com/shop/c64/hd-64-von-spl)
+- [Retro8BitShop](https://www.retro8bitshop.com/product/spl-hd-64)
+- [Retro-Updates](https://www.retro-updates.com/product/17245372/hd-64-commodore-64-hdmi-output-fpga)
+
+Sales of HD-64 by any shop other than the ones mentioned above may be in violation of the [License](#1-license) terms and conditions and should be reported to the developer
 
 # 1. License
 License information is included on top of all software source files as well as in all schematics. Files that do not contain explicit licensing information are subject to the licensing terms stated in the LICENSE.txt provided in the main project folder:
